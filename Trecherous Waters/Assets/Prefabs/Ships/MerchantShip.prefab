@@ -3409,9 +3409,9 @@ GameObject:
   - component: {fileID: 4213183402761479408}
   - component: {fileID: 4213183402761479409}
   - component: {fileID: 2725861145305055551}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: MerchantShip
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3523,6 +3523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 290bbb56f054f5849a85a2aeabbf7e3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  barrelDropPoint: {fileID: 0}
   cannons:
   - {fileID: 356064738830169854}
   - {fileID: 356064738516070733}
@@ -3536,6 +3537,7 @@ MonoBehaviour:
   - {fileID: 356064738745080881}
   projectiles:
   - {fileID: 11400000, guid: 06f499c2ef6c860458cd9b3b016e25f3, type: 2}
+  currentAmmo: 0
   playerLayer:
     serializedVersion: 2
     m_Bits: 536870912

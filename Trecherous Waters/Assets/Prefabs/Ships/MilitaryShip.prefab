@@ -3402,9 +3402,9 @@ GameObject:
   - component: {fileID: 5536544333956277202}
   - component: {fileID: 5536544333956277201}
   - component: {fileID: 5536544333956277203}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: MilitaryShip
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

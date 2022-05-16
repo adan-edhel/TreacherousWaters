@@ -128,4 +128,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4da5f72d72d295f44b648d402ba1c985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkRadius: 50
+  data: {fileID: 11400000, guid: ac1cc588d3cbc7948922410b08efc35d, type: 2}
+  checkRadius: 40
+  sphereCastInterval: 3

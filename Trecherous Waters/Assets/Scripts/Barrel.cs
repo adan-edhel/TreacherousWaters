@@ -9,8 +9,7 @@ namespace TreacherousWaters
         public ProjectileScriptableObject data;
 
         [SerializeField] float checkRadius = 50f;
-
-        float sphereCastInterval = 15;
+        [SerializeField] float sphereCastInterval = 10;
         float counter;
 
         void Start()
