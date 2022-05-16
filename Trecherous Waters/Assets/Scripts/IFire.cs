@@ -1,4 +1,8 @@
-public interface IFire
+namespace TreacherousWaters
 {
-    public void Fire();
+    public interface IFire
+    {
+        public void Fire();
+    }
 }
+

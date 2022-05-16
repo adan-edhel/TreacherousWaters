@@ -2,65 +2,66 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MerchantShip : ShipBase
+namespace TreacherousWaters
 {
-    public GameObject homePier { get; private set; }
-    public GameObject destinationPier;
-
-    ISetWaypoint iSetWaypoint;
-
-    private void Awake()
+    public class MerchantShip : ShipBase
     {
-        iSetWaypoint = GetComponent<ISetWaypoint>();
-    }
+        public GameObject homePier { get; private set; }
+        public GameObject destinationPier;
 
-    protected override void Start()
-    {
-        base.Start();
+        iBasicAIFunctions iBasicAI;
 
-        if (destinationPier != null)
+        void Start()
         {
-            iSetWaypoint.SetWaypoint(destinationPier.transform.position);
-        }
-        else
-        {
-            Debug.Log("MerchantShip has no destination!");
-        }
+            iBasicAI = GetComponent<iBasicAIFunctions>();
 
-        ShipSpawner.Instance.HandleMerchantShipRegistry(this);
-    }
-
-    private void Update()
-    {
-        if (destinationPier && !sunk)
-        {
-            float distance = Vector3.Distance(transform.position, destinationPier.transform.position);
-            if (distance <= 1f)
+            if (destinationPier != null)
             {
-                Destroy(gameObject, 1);
+                iBasicAI.SetWaypoint(destinationPier.transform.position);
+            }
+
+            ShipSpawner.Instance.HandleMerchantShipRegistry(this);
+        }
+
+        private void Update()
+        {
+            if (destinationPier)
+            {
+                float distance = Vector3.Distance(transform.position, destinationPier.transform.position);
+                if (distance <= 1f)
+                {
+                    Destroy(gameObject, 1);
+                }
             }
         }
-    }
 
-    /// <summary>
-    /// Assign required pier references to the ship.
-    /// </summary>
-    /// <param name="home"></param>
-    /// <param name="destination"></param>
-    public void AssignPiers(GameObject home, GameObject destination)
-    {
-        homePier = home;
-        destinationPier = destination;
-    }
+        /// <summary>
+        /// Assign required pier references to the ship.
+        /// </summary>
+        /// <param name="home"></param>
+        /// <param name="destination"></param>
+        public void AssignPiers(GameObject home, GameObject destination)
+        {
+            homePier = home;
+            destinationPier = destination;
+        }
 
-    protected override void OnSink()
-    {
-        base.OnSink();
-        Destroy(gameObject, 5);
-    }
+        protected override void OnSink()
+        {
+            base.OnSink();
+            Destroy(gameObject, 5);
+        }
 
-    private void OnDestroy()
-    {
-        ShipSpawner.Instance.HandleMerchantShipRegistry(this);
+        private void OnDestroy()
+        {
+            ShipSpawner.Instance.HandleMerchantShipRegistry(this);
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(transform.position, 20);
+        }
     }
 }
+

@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 222485a6388a92848bd6b1cf3a8eeaf0, type: 3}
   m_Name: Chainball
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
-  damage: 10
-  loadTime: 4
-  lifeTime: 5
-  forwardForce: 15
-  upForce: 5
+  prefab: {fileID: 6384348866700940644, guid: c606a1d58ad86184297a09db768fdb6e, type: 3}
+  type: 1
+  damage: 5
+  loadTime: 2
+  lifeTime: 4
+  forwardForce: 50
+  upForce: 2

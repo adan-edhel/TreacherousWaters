@@ -33,7 +33,7 @@ namespace UltimateClean
                 animator.Play("Close");
             }
 
-            RemoveBackground();
+            //RemoveBackground();
             StartCoroutine(RunPopupDestroy());
         }
 
@@ -70,6 +70,7 @@ namespace UltimateClean
             m_background.GetComponent<RectTransform>().sizeDelta = canvas.GetComponent<RectTransform>().sizeDelta;
             m_background.transform.SetParent(canvas.transform, false);
             m_background.transform.SetSiblingIndex(transform.GetSiblingIndex());
+            Destroy(m_background);
         }
 
         private void RemoveBackground()

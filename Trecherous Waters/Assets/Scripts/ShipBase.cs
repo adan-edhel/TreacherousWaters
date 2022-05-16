@@ -1,35 +1,39 @@
 using UnityEngine.AI;
 using UnityEngine;
 
-public class ShipBase : MonoBehaviour, IDealDamage
+namespace TreacherousWaters
 {
-    public float integrity { get; private set; } = 100;
-
-    protected bool sunk;
-
-    protected Animator animator;
-    private NavMeshAgent navAgent;
-
-    protected virtual void Start()
+    public class ShipBase : MonoBehaviour, IDealDamage
     {
-        navAgent = GetComponent<NavMeshAgent>();
-        animator = GetComponentInChildren<Animator>();
-    }
+        public float integrity { get; private set; } = 100;
 
-    public void DealDamage(float value)
-    {
-        integrity -= value;
+        private bool sunk;
 
-        if (integrity <= 0)
+        protected Animator animator;
+        private NavMeshAgent navAgent;
+
+        protected virtual void Awake()
         {
-            OnSink();
+            navAgent = GetComponent<NavMeshAgent>();
+            animator = GetComponentInChildren<Animator>();
+        }
+
+        public void DealDamage(float value)
+        {
+            integrity -= value;
+
+            if (integrity <= 0 && !sunk)
+            {
+                OnSink();
+            }
+        }
+
+        protected virtual void OnSink()
+        {
+            sunk = true;
+            navAgent.isStopped = true;
+            animator.SetBool("Sunk", sunk);
         }
     }
-
-    protected virtual void OnSink()
-    {
-        sunk = true;
-        navAgent.isStopped = true;
-        animator.SetBool("Sunk", sunk);
-    }
 }
+

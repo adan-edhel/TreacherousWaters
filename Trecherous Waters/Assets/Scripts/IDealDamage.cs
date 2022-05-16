@@ -1,4 +1,11 @@
-public interface IDealDamage
+namespace TreacherousWaters
 {
-    public void DealDamage(float value);
+    /// <summary>
+    /// Interface used to deliver float damage values between scripts.
+    /// </summary>
+    public interface IDealDamage
+    {
+        public void DealDamage(float value);
+    }
 }
+
