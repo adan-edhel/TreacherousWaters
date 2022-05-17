@@ -1,4 +1,5 @@
 using UnityEngine.InputSystem;
+using System.Linq;
 using UnityEngine;
 
 namespace TreacherousWaters
@@ -6,6 +7,7 @@ namespace TreacherousWaters
     public class InputHandler : MonoBehaviour
     {
         ISetWaypoint iSetWaypoint;
+        ICameraInput iCameraInput;
         IFire iFire;
 
         Broadside currentSide;
@@ -17,6 +19,7 @@ namespace TreacherousWaters
 
         void Start()
         {
+            iCameraInput = CameraHandler.iCameraInput;
             iSetWaypoint = GetComponent<ISetWaypoint>();
             iFire = GetComponent<IFire>();
 
@@ -37,6 +40,28 @@ namespace TreacherousWaters
             }
         }
 
+        private void OnSwitchBroadside(InputValue value)
+        {
+            if (value.Get<float>() == 0) return;
+            currentSide = (value.Get<float>() < 0 ? Broadside.port : Broadside.starboard);
+            GameUI.Instance.UpdateUIBroadside(currentSide);
+        }
+
+        private void OnToggleRotate(InputValue value)
+        {
+            iCameraInput?.ToggleRotate(value.isPressed);
+        }
+
+        private void OnRotate(InputValue value)
+        {
+            iCameraInput?.Rotation(value.Get<Vector2>());
+        }
+
+        private void OnZoom(InputValue value)
+        {
+            iCameraInput?.Zoom(value.Get<float>());
+        }
+
         /// <summary>
         /// Catches the Fire input and delivers it through an interface.
         /// </summary>
@@ -44,12 +69,6 @@ namespace TreacherousWaters
         private void OnFire()
         {
             iFire?.Fire(currentSide);
-        }
-
-        private void OnSwitchBroadside(InputValue value)
-        {
-            if (value.Get<float>() == 0) return;
-            currentSide = (value.Get<float>() < 0 ? Broadside.port : Broadside.starboard);
         }
 
         private void OnQuit()

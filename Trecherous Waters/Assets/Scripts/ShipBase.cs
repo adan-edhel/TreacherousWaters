@@ -20,6 +20,11 @@ namespace TreacherousWaters
             animator.Play("Bobbing", -1, Random.Range(0f, 1f));
         }
 
+        private void LateUpdate()
+        {
+            GameUI.Instance.HandleIntegrityBar(integrity, 100);
+        }
+
         public void DealDamage(float value)
         {
             integrity -= value;

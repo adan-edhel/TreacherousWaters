@@ -38,6 +38,12 @@ namespace TreacherousWaters
                     loadCounters[i] -= Time.deltaTime;
                 }
             }
+
+            if(PlayerShip.Instance.gameObject == gameObject) //TODO: Clean up
+            {
+                GameUI.Instance.UpdateBroadsideValues(loadCounters[0], loadCounters[1], projectiles[(int)currentAmmo].loadTime);
+                GameUI.Instance.UpdateUIAmmo((int)currentAmmo);
+            }
         }
 
         public void SwitchAmmunition(AmmunitionType type)

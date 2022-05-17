@@ -11,6 +11,9 @@ namespace TreacherousWaters
     {
         NavMeshAgent agent;
         ParticleSystem wakeParticle;
+        AudioSource audioSource;
+
+        float targetVolume;
 
         /// <summary>
         /// Dictates how close NavMesh needs to have been baked for a waypoint to be set.
@@ -23,6 +26,7 @@ namespace TreacherousWaters
             agent = GetComponent<NavMeshAgent>();
             agent.avoidancePriority = Random.Range(10, 50);
 
+            audioSource = GetComponent<AudioSource>();
             wakeParticle = GetComponentInChildren<ParticleSystem>();
         }
 
@@ -33,6 +37,7 @@ namespace TreacherousWaters
                 if (wakeParticle.isStopped)
                 {
                     wakeParticle.Play();
+                    targetVolume = 1f;
                 }
             }
             else
@@ -40,8 +45,10 @@ namespace TreacherousWaters
                 if (wakeParticle.isPlaying)
                 {
                     wakeParticle.Stop();
+                    targetVolume = 0;
                 }
             }
+            audioSource.volume = Mathf.Lerp(audioSource.volume, targetVolume, 1f * Time.deltaTime);
         }
 
         /// <summary>

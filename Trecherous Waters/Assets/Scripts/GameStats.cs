@@ -22,6 +22,7 @@ namespace TreacherousWaters
         public void HandleEarntGold(int amount)
         {
             stolenGold += amount;
+            EventContainer.OnUpdateGUIGold?.Invoke(amount);
         }
     }
 }

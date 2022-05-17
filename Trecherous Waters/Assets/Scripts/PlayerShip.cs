@@ -11,6 +11,8 @@ namespace TreacherousWaters
     {
         public static GameObject Instance { get; private set; }
 
+        [SerializeField] bool randomizePositionOnStart;
+
         protected override void Awake()
         {
             base.Awake();
@@ -20,7 +22,7 @@ namespace TreacherousWaters
 
         private void Start()
         {
-            transform.position = GameManager.instance.GetRandomSpawnPosition();
+            if (randomizePositionOnStart) transform.position = GameManager.instance.GetRandomSpawnPosition();
         }
 
         protected override void OnSink()

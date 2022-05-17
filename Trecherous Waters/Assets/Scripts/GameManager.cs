@@ -9,7 +9,7 @@ namespace TreacherousWaters
     {
         public static GameManager instance { get; private set; }
 
-        public float timeLeft = 300; // 5 minutes
+        public float timeLeft { get; private set; } = 300; // 5 minutes
         bool gameOver;
 
         [SerializeField] Transform[] playerSpawns = new Transform[4];

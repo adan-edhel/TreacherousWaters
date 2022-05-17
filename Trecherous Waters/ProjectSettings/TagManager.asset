@@ -45,3 +45,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: UICannon
+    uniqueID: 1475330623
+    locked: 0

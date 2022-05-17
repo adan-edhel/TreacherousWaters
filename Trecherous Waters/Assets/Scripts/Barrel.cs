@@ -51,6 +51,14 @@ namespace TreacherousWaters
             }
         }
 
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.layer == 31)
+            {
+                if (data.particleWaterImpact) Instantiate(data.particleWaterImpact, transform.position, Quaternion.identity);
+            }
+        }
+
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
