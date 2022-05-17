@@ -4,9 +4,11 @@ using UnityEngine;
 
 namespace TreacherousWaters
 {
-    public class CollectibleItem : MonoBehaviour
+    public class CollectibleItem : MonoBehaviour, IDealDamage
     {
-        [SerializeField] float lifetime = 50;
+        public float integrity { get; private set; } = 100;
+
+        public float lifetime = 40;
 
         private void Start()
         {
@@ -16,6 +18,15 @@ namespace TreacherousWaters
         protected virtual void OnPickup(Collision collision)
         {
             Destroy(gameObject);
+        }
+
+        public void DealDamage(float value)
+        {
+            integrity -= value;
+            if (integrity <= 0)
+            {
+                GameObject.Destroy(gameObject);
+            }
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -28,7 +39,7 @@ namespace TreacherousWaters
 
         private void OnDestroy()
         {
-            EventContainer.onPickedUpItem.Invoke(this);
+            EventContainer.onDestroyedPickup?.Invoke(this);
         }
 
         private void OnDrawGizmos()

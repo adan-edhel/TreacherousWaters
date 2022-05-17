@@ -18,14 +18,19 @@ namespace TreacherousWaters
         [SerializeField] LayerMask navigableTerrain;
 
         [Header("Spawner Values")]
+        [SerializeField] float spawnHeight = 1;
         [SerializeField] float spawnInterval = 4;
+        [SerializeField] float pickupLifetime = 40;
         [SerializeField] float maxSpawnedPickups = 30;
 
         [Header("Lists")]
         [SerializeField] List<GameObject> prefabs = new List<GameObject>();
         [SerializeField] List<Vector3> spawnPositions = new List<Vector3>();
-        [SerializeField] List<CollectibleItem> spawnedPickups = new List<CollectibleItem>(); 
+        [SerializeField] List<CollectibleItem> spawnedPickups = new List<CollectibleItem>();
 
+        List<int> indexesToSpawnFrom = new List<int>();
+        GameObject ammunitionContainer;
+        int lastSpawnedPickupIndex;
         float counter;
 
         private void Start()
@@ -34,14 +39,20 @@ namespace TreacherousWaters
             {
                 throw new System.Exception($"{name} script on the {gameObject.name} doesn't have all prefabs assigned!");
             }
-            EventContainer.onPickedUpItem += HandlePickupRegistry;
 
-            UpdateSpawnPositions();
+            // If there are no spawn positions, generate them.
+            if (spawnPositions.Count == 0) GenerateSpawnPositions();
+
+            EventContainer.onDestroyedPickup += HandlePickupRegistry;
+
+            ammunitionContainer = new GameObject();
+            ammunitionContainer.name = "Ammunition Container";
+            ammunitionContainer.transform.SetParent(transform);
         }
 
         private void OnValidate()
         {
-            UpdateSpawnPositions();
+            GenerateSpawnPositions();
         }
 
         private void Update()
@@ -55,6 +66,10 @@ namespace TreacherousWaters
             }
         }
 
+        /// <summary>
+        /// Spawns pickups at intervals using a random position from the generated spawn positions.
+        /// </summary>
+        /// <exception cref="System.Exception"></exception>
         private void SpawnPickup()
         {
             if (spawnPositions.Count < 1)
@@ -62,14 +77,26 @@ namespace TreacherousWaters
                 throw new System.Exception($"{name} script on the {gameObject.name} has no spawn positions generated!");
             }
 
-            int index = Random.Range(0, prefabs.Count - 1);
+            indexesToSpawnFrom.Clear();
+            for (int i = 0; i < 3; i++)
+            {
+                if (i == lastSpawnedPickupIndex) continue;
+                indexesToSpawnFrom.Add(i);
+            }
+            lastSpawnedPickupIndex = indexesToSpawnFrom[Random.Range(0, indexesToSpawnFrom.Count)];
             var rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
             var position = spawnPositions[Random.Range(0, spawnPositions.Count - 1)];
 
-            CollectibleItem item = Instantiate(prefabs[index], position, rotation).GetComponent<CollectibleItem>();
+            CollectibleItem item = Instantiate(prefabs[lastSpawnedPickupIndex], position, rotation).GetComponent<CollectibleItem>();
+            item.transform.SetParent(ammunitionContainer.transform);
+            item.lifetime = pickupLifetime;
             HandlePickupRegistry(item);
         }
 
+        /// <summary>
+        /// Adds and removes pickups from a list of spawned pickups.
+        /// </summary>
+        /// <param name="item"></param>
         private void HandlePickupRegistry(CollectibleItem item)
         {
             if (spawnedPickups.Contains(item))
@@ -79,7 +106,10 @@ namespace TreacherousWaters
             else { spawnedPickups.Add(item); }
         }
 
-        private void UpdateSpawnPositions()
+        /// <summary>
+        /// Generates spawn positions to be used for pickups.
+        /// </summary>
+        private void GenerateSpawnPositions()
         {
             spawnPositions.Clear();
 
@@ -95,7 +125,7 @@ namespace TreacherousWaters
                         hits = Physics.RaycastAll(pos, Vector3.down, Mathf.Infinity, navigableTerrain);
                         if (NavMesh.SamplePosition(hits[0].point, out hit, .05f, NavMesh.AllAreas))
                         {
-                            spawnPositions.Add(hits[0].point);
+                            spawnPositions.Add(hits[0].point + (Vector3.up * spawnHeight));
                         }
                     }
                 }
@@ -135,7 +165,7 @@ namespace TreacherousWaters
 
         private void OnDestroy()
         {
-            EventContainer.onPickedUpItem -= HandlePickupRegistry;
+            EventContainer.onDestroyedPickup -= HandlePickupRegistry;
         }
     }
 }

@@ -6,7 +6,8 @@ namespace TreacherousWaters
 {
     public class MilitaryShip : ShipBase
     {
-        iBasicAIFunctions iBasicAI;
+        iCombatAIFunctions iCombatFunctions;
+        ISetWaypoint iSetWaypoint;
         Transform player;
 
         [Header("Rotation Values")]
@@ -15,12 +16,13 @@ namespace TreacherousWaters
         void Start()
         {
             player = PlayerShip.Instance.transform;
-            iBasicAI = GetComponent<iBasicAIFunctions>();
+            iCombatFunctions = GetComponent<iCombatAIFunctions>();
+            iSetWaypoint = GetComponent<ISetWaypoint>();
         }
 
         void Update()
         {
-            iBasicAI?.SetWaypoint(player.position);
+            iSetWaypoint?.SetWaypoint(player.position);
             RotateShip();
         }
 
@@ -30,17 +32,17 @@ namespace TreacherousWaters
         /// </summary>
         private void RotateShip()
         {
-            float angle = iBasicAI.GetPlayerAngle();
+            float angle = iCombatFunctions.GetPlayerAngle();
             // Player's absolute angle
             float absAngle = Mathf.Abs(angle);
 
             // Check when to rotate left or right
             bool rotateLeft = IsBetween(angle, 0, 90) || IsBetween(angle, -90, -180);
 
-            if (iBasicAI.InAttackRange())
+            if (iCombatFunctions.InAttackRange())
             {
                 // Check if player ship angle is outside bounds
-                if (!iBasicAI.InAttackAngle())
+                if (!iCombatFunctions.InAttackAngle())
                 {
                     // Rotate according to the angle of the player ship
                     float relativeRotationSpeed = rotateLeft ? rotationSpeed : -rotationSpeed;
@@ -56,10 +58,12 @@ namespace TreacherousWaters
         /// <param name="bound1"></param>
         /// <param name="bound2"></param>
         /// <returns></returns>
-        private bool IsBetween(float value, float bound1, float bound2) // TODO: study this one
+        private bool IsBetween(float value, float bound1, float bound2)
         {
+            // if first value is bigger than second, return if value is between.
             if (bound1 > bound2) return value >= bound2 && value <= bound1;
-
+            // return if value is equal or bigger than first bound,
+            // or equal or smaller than second bound.
             return value >= bound1 && value <= bound2;
         }
 

@@ -1,7 +1,7 @@
 namespace TreacherousWaters
 {
     /// <summary>
-    /// Interface used to deliver float damage values between scripts.
+    /// Delivers a float damage value between scripts.
     /// </summary>
     public interface IDealDamage
     {

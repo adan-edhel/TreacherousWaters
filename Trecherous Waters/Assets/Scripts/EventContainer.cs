@@ -6,6 +6,7 @@ namespace TreacherousWaters
     public static class EventContainer
     {
         public static Delegates.OnGameOver onGameOver;
-        public static Delegates.OnPickedUpItem onPickedUpItem;
+        public static Delegates.OnDestroyedPickup onDestroyedPickup;
+        public static Delegates.OnDestroyedMerchant onDestroyedMerchant;
     }
 }

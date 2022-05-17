@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace TreacherousWaters
@@ -9,18 +7,18 @@ namespace TreacherousWaters
         public GameObject homePier { get; private set; }
         public GameObject destinationPier;
 
-        iBasicAIFunctions iBasicAI;
+        ISetWaypoint iSetWaypoint;
+
+        bool sunkByPlayer;
 
         void Start()
         {
-            iBasicAI = GetComponent<iBasicAIFunctions>();
+            iSetWaypoint = GetComponent<ISetWaypoint>();
 
             if (destinationPier != null)
             {
-                iBasicAI.SetWaypoint(destinationPier.transform.position);
+                iSetWaypoint.SetWaypoint(destinationPier.transform.position);
             }
-
-            ShipSpawner.Instance.HandleMerchantShipRegistry(this);
         }
 
         private void Update()
@@ -42,19 +40,20 @@ namespace TreacherousWaters
         /// <param name="destination"></param>
         public void AssignPiers(GameObject home, GameObject destination)
         {
-            homePier = home;
             destinationPier = destination;
+            homePier = home;
         }
 
         protected override void OnSink()
         {
             base.OnSink();
+            sunkByPlayer = true;
             Destroy(gameObject, 5);
         }
 
         private void OnDestroy()
         {
-            ShipSpawner.Instance.HandleMerchantShipRegistry(this);
+            EventContainer.onDestroyedMerchant?.Invoke(this, sunkByPlayer);
         }
 
         private void OnDrawGizmos()

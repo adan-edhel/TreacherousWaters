@@ -6,6 +6,7 @@ namespace TreacherousWaters
     public static class Delegates
     {
         public delegate void OnGameOver();
-        public delegate void OnPickedUpItem(CollectibleItem item);
+        public delegate void OnDestroyedPickup(CollectibleItem item);
+        public delegate void OnDestroyedMerchant(MerchantShip ship, bool sunk);
     }
 }

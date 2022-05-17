@@ -7,7 +7,7 @@ namespace TreacherousWaters
     /// Allows to move ships using a NavMeshAgent component.
     /// </summary>
     [RequireComponent(typeof(NavMeshAgent)), DisallowMultipleComponent]
-    public class ShipMovement : MonoBehaviour, INavAgentFunctions
+    public class ShipMovement : MonoBehaviour, ISetWaypoint
     {
         NavMeshAgent agent;
 

@@ -53,21 +53,13 @@ namespace TreacherousWaters
         {
             foreach (Transform cannon in cannons)
             {
-                // Instantiate and create reference for canonballs
-                Projectile shot = Instantiate(projectiles[(int)currentAmmo].prefab, cannon.position, Quaternion.identity).GetComponent<Projectile>();
-
-                // Rotate the cannonballs to match ship rotation
-                shot.transform.Rotate(new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z));
-
                 // Check if cannon is on portside (left side of the ship)
                 bool portside = cannon.localPosition.x < 0;
 
                 // Rotate cannon balls to match side
                 float rotateDegrees = portside ? -90 : 90;
-                shot.transform.Rotate(shot.transform.up, rotateDegrees);
 
-                // Initiate shot
-                shot.OnShot(shipCollider, projectiles[(int)currentAmmo]);
+                StartCoroutine(ShootCannon(cannon.position, rotateDegrees));
             }
         }
 
@@ -76,6 +68,21 @@ namespace TreacherousWaters
             var randomRotation = Quaternion.Euler(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
             Barrel barrel = Instantiate(projectiles[2].prefab, barrelDropPoint.position, randomRotation).GetComponent<Barrel>();
             barrel.data = projectiles[2];
+        }
+
+        IEnumerator ShootCannon(Vector3 position, float rotation)
+        {
+            yield return new WaitForSeconds(Random.Range(0, .15f));
+
+            // Instantiate and create reference for canonballs
+            Projectile shot = Instantiate(projectiles[(int)currentAmmo].prefab, position, Quaternion.identity).GetComponent<Projectile>();
+
+            // Rotate the cannonballs to match ship rotation
+            shot.transform.Rotate(new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z));
+            shot.transform.Rotate(shot.transform.up, rotation);
+
+            // Initiate shot
+            shot.OnShot(shipCollider, projectiles[(int)currentAmmo]);
         }
 
         private void OnDrawGizmosSelected()

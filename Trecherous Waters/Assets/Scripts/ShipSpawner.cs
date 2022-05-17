@@ -20,6 +20,7 @@ namespace TreacherousWaters
         [SerializeField] private List<GameObject> piers = new List<GameObject>();
         [SerializeField] private List<MerchantShip> merchantShips = new List<MerchantShip>();
 
+        private GameObject shipContainer;
         private float intervalCounter;
 
         private void Awake()
@@ -29,6 +30,12 @@ namespace TreacherousWaters
             // Catch exceptions
             if (!MerchantShipPrefab) { throw new System.Exception($"MerchantShip prefab not assigned to the {name} script on the {gameObject.name}!"); }
             if (!MilitaryShipPrefab) { throw new System.Exception($"MilitaryShip prefab not assigned to the {name} script on the {gameObject.name}!"); }
+
+            EventContainer.onDestroyedMerchant += HandleDestroyedMerchant;
+
+            shipContainer = new GameObject();
+            shipContainer.name = "Ship Container";
+            shipContainer.transform.SetParent(transform);
         }
 
         private void OnValidate()
@@ -65,39 +72,28 @@ namespace TreacherousWaters
             // Instantiate ship & assign required references
             MerchantShip ship = Instantiate(MerchantShipPrefab, piers[homePier].transform.position, Quaternion.identity).GetComponent<MerchantShip>();
             ship.AssignPiers(piers[homePier], otherPiers[targetPier]);
-            ship.transform.SetParent(transform);
+            ship.transform.SetParent(shipContainer.transform);
+            merchantShips.Add(ship);
 
             // Reset spawn interval counter
             intervalCounter = Random.Range(spawnShipIntervalRange.x, spawnShipIntervalRange.y);
         }
 
         /// <summary>
-        /// Spawns a military ship at the home pier of given merchant ship and removes the merchant ship from the registry.
+        /// Removes merchant ship from the list of active merchant ships and if sunk by player,
+        /// spawns a military ship at its home pier.
         /// </summary>
         /// <param name="ship"></param>
-        public void SpawnMilitaryShip(MerchantShip ship)
+        /// <param name="sunk"></param>
+        private void HandleDestroyedMerchant(MerchantShip ship, bool sunk)
         {
-            // Removes merchant ship from list
-            HandleMerchantShipRegistry(ship);
+            if (merchantShips.Contains(ship)) merchantShips.Remove(ship);
 
-            // Instatiate military ship
-            MilitaryShip mShip = Instantiate(MilitaryShipPrefab, ship.homePier.transform.position, Quaternion.identity).GetComponent<MilitaryShip>();
-            mShip.transform.SetParent(transform);
-        }
-
-        /// <summary>
-        /// Adds merchant ship to the registry or removes it from it if it's already included.
-        /// </summary>
-        /// <param name="ship"></param>
-        public void HandleMerchantShipRegistry(MerchantShip ship)
-        {
-            if (merchantShips.Contains(ship))
+            if (sunk)
             {
-                merchantShips.Remove(ship);
-            }
-            else
-            {
-                merchantShips.Add(ship);
+                // Instatiate military ship
+                MilitaryShip mShip = Instantiate(MilitaryShipPrefab, ship.homePier.transform.position, Quaternion.identity).GetComponent<MilitaryShip>();
+                mShip.transform.SetParent(shipContainer.transform);
             }
         }
 
@@ -124,6 +120,11 @@ namespace TreacherousWaters
 
             // If there aren't enough piers in the scene, throw exception
             if (piers.Count <= 1) { throw new System.Exception("There aren't enough piers in the scene!"); }
+        }
+
+        private void OnDestroy()
+        {
+            EventContainer.onDestroyedMerchant -= HandleDestroyedMerchant;
         }
 
         private void OnDrawGizmos()

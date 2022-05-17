@@ -32,7 +32,7 @@ namespace TreacherousWaters
         {
             sunk = true;
             navAgent.isStopped = true;
-            animator.SetBool("Sunk", sunk);
+            animator?.SetBool("Sunk", sunk);
         }
     }
 }

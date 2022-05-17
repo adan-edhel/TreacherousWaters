@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
 
@@ -7,7 +5,7 @@ namespace TreacherousWaters
 {
     public class InputHandler : MonoBehaviour
     {
-        INavAgentFunctions iNavAgent;
+        ISetWaypoint iSetWaypoint;
         IFire iFire;
 
         /// <summary>
@@ -17,14 +15,14 @@ namespace TreacherousWaters
 
         void Start()
         {
-            iNavAgent = GetComponent<INavAgentFunctions>();
+            iSetWaypoint = GetComponent<ISetWaypoint>();
             iFire = GetComponent<IFire>();
 
             EventContainer.onGameOver += OnGameOver;
         }
 
         /// <summary>
-        /// Catches the SetWaypoint input.
+        /// Catches the SetWaypoint input and delivers it through an interface.
         /// </summary>
         private void OnSetWaypoint()
         {
@@ -33,12 +31,12 @@ namespace TreacherousWaters
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, navigableTerrain))
             {
                 if (hit.point.y < (transform.position.y - 5)) { return; }
-                iNavAgent?.SetWaypoint(hit.point);
+                iSetWaypoint?.SetWaypoint(hit.point);
             }
         }
 
         /// <summary>
-        /// Catches the Fire input.
+        /// Catches the Fire input and delivers it through an interface.
         /// </summary>
         /// <param name="value"></param>
         private void OnFire()
@@ -46,10 +44,13 @@ namespace TreacherousWaters
             iFire?.Fire();
         }
 
+        /// <summary>
+        /// Deactivates player input & NavMeshAgent.
+        /// </summary>
         private void OnGameOver()
         {
-            GetComponent<PlayerInput>().DeactivateInput();
             GetComponent<UnityEngine.AI.NavMeshAgent>().isStopped = true;
+            GetComponent<PlayerInput>().DeactivateInput();
             EventContainer.onGameOver -= OnGameOver;
         }
     }
