@@ -10,6 +10,7 @@ namespace TreacherousWaters
     public class ShipMovement : MonoBehaviour, ISetWaypoint
     {
         NavMeshAgent agent;
+        ParticleSystem wakeParticle;
 
         /// <summary>
         /// Dictates how close NavMesh needs to have been baked for a waypoint to be set.
@@ -21,6 +22,26 @@ namespace TreacherousWaters
         {
             agent = GetComponent<NavMeshAgent>();
             agent.avoidancePriority = Random.Range(10, 50);
+
+            wakeParticle = GetComponentInChildren<ParticleSystem>();
+        }
+
+        private void LateUpdate()
+        {
+            if (agent.velocity.magnitude > 0)
+            {
+                if (wakeParticle.isStopped)
+                {
+                    wakeParticle.Play();
+                }
+            }
+            else
+            {
+                if (wakeParticle.isPlaying)
+                {
+                    wakeParticle.Stop();
+                }
+            }
         }
 
         /// <summary>

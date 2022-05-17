@@ -13,9 +13,13 @@ MonoBehaviour:
   m_Name: Chainball
   m_EditorClassIdentifier: 
   prefab: {fileID: 6384348866700940644, guid: c606a1d58ad86184297a09db768fdb6e, type: 3}
+  particleShot: {fileID: 3807381743138552341, guid: db607bcfcd2860a4f9ac4320cd083fdf, type: 3}
+  particleShipImpact: {fileID: 3097643929272412647, guid: 594383d37561f0143a9104d2de4d82bf, type: 3}
+  particleWaterImpact: {fileID: 8432104302052850356, guid: b2fb0577b8fe49d45ae87dc0f608f4b1, type: 3}
+  particleDefaultImpact: {fileID: 6445457332112488709, guid: 82b6b5b082c779147bcbe59ece40e87d, type: 3}
   type: 1
-  damage: 5
-  loadTime: 2
+  damage: 20
+  loadTime: 7
   lifeTime: 4
   forwardForce: 50
   upForce: 2

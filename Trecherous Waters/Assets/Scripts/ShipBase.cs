@@ -16,6 +16,8 @@ namespace TreacherousWaters
         {
             navAgent = GetComponent<NavMeshAgent>();
             animator = GetComponentInChildren<Animator>();
+
+            animator.Play("Bobbing", -1, Random.Range(0f, 1f));
         }
 
         public void DealDamage(float value)
@@ -33,6 +35,7 @@ namespace TreacherousWaters
             sunk = true;
             navAgent.isStopped = true;
             animator?.SetBool("Sunk", sunk);
+            GetComponent<Collider>().enabled = false;
         }
     }
 }

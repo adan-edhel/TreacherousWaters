@@ -44,6 +44,7 @@ namespace TreacherousWaters
                             ship.DealDamage(data.damage);
                         }
                     }
+                    Instantiate(data.particleShipImpact, transform.position, Quaternion.identity);
                     Destroy(gameObject);
                     return;
                 }

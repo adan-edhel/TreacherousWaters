@@ -29,6 +29,8 @@ namespace TreacherousWaters
 
             GetComponent<Rigidbody>().AddForce(transform.forward * data.forwardForce, ForceMode.Impulse);
             GetComponent<Rigidbody>().AddForce(transform.up * data.upForce, ForceMode.Impulse);
+
+            if (data.particleShot) Instantiate(data.particleShot, transform.position, transform.rotation);
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -38,7 +40,21 @@ namespace TreacherousWaters
                 ship.DealDamage(data.damage);
                 Destroy(gameObject, 1f);
 
+
                 Physics.IgnoreCollision(collision.collider, GetComponent<Collider>());
+            }
+
+            if (collision.gameObject.layer == 31)
+            {
+                if (data.particleWaterImpact) Instantiate(data.particleWaterImpact, transform.position, Quaternion.identity);
+            }
+            else if (collision.gameObject.layer == 28 || collision.gameObject.layer == 29)
+            {
+                if (data.particleShipImpact) Instantiate(data.particleShipImpact, transform.position, Quaternion.Inverse(transform.rotation));
+            }
+            else
+            {
+                if (data.particleDefaultImpact) Instantiate(data.particleDefaultImpact, transform.position, Quaternion.identity);
             }
         }
 

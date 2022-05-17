@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: Barrel
   m_EditorClassIdentifier: 
   prefab: {fileID: 5242665396085819638, guid: e5c5a1fc4e3a7cb41ac428e48c6d181c, type: 3}
+  particleShot: {fileID: 0}
+  particleShipImpact: {fileID: 3008876821268326037, guid: e69e41184d8c0b548969cce9cbf70e24, type: 3}
+  particleWaterImpact: {fileID: 0}
+  particleDefaultImpact: {fileID: 0}
   type: 2
-  damage: 100
+  damage: 500
   loadTime: 15
   lifeTime: 20
   forwardForce: 15
