@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TreacherousWaters
 {
-    public class CombatAI : ShipCombat, iCombatAIFunctions
+    public class CombatAI : ShipCombat, ICombatFunctions
     {
         [Header("AI values")]
         [SerializeField] LayerMask playerLayer;
@@ -26,6 +26,8 @@ namespace TreacherousWaters
         /// Returns whether player is on the left side of the ship.
         /// </summary>
         bool playerOnLeft => GetPlayerAngle() < 0;
+
+        bool sunk;
 
         protected override void Update()
         {
@@ -51,13 +53,14 @@ namespace TreacherousWaters
                 if (Physics.Raycast(transform.position, dir, distToFire, playerLayer))
                 {
                     Debug.DrawRay(transform.position, dir * distToFire, Color.red);
-                    if (inAttackAngle) Fire();
+                    if (inAttackAngle) Fire(playerOnLeft ? Broadside.starboard : Broadside.port);
 
                     return;
                 }
                 Debug.DrawRay(transform.position, dir * distToFire, Color.green);
             }
         }
+
         public bool InAttackRange() { return inAttackRange; }
         public bool InAttackAngle() { return inAttackAngle; }
 
@@ -68,6 +71,11 @@ namespace TreacherousWaters
 
             // Get player ship angle
             return Vector3.SignedAngle(playerDirection, transform.forward, Vector3.up);
+        }
+
+        public void IsSunk(bool isSunk)
+        {
+            sunk = isSunk;
         }
 
         /// <summary>

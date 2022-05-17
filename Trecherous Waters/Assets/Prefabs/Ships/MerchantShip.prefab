@@ -3512,6 +3512,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destinationPier: {fileID: 0}
+  goldChest: {fileID: 2178021071097266430, guid: e821c44eddb626141aa0530f3d36afe1, type: 3}
 --- !u!114 &2725861145305055551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3539,6 +3540,9 @@ MonoBehaviour:
   projectiles:
   - {fileID: 11400000, guid: 06f499c2ef6c860458cd9b3b016e25f3, type: 2}
   currentAmmo: 0
+  loadCounters:
+  - 0
+  - 0
   playerLayer:
     serializedVersion: 2
     m_Bits: 536870912

@@ -18,9 +18,10 @@ namespace TreacherousWaters
         /// <summary>
         /// Starts endgame stats popup courotine.
         /// </summary>
-        private void OnEndGame()
+        private void OnEndGame(bool delayed)
         {
-            StartCoroutine(PopupCoroutine());
+            float delay = delayed ? 5 : 0;
+            StartCoroutine(PopupCoroutine(delay));
             EventContainer.onGameOver -= OnEndGame;
         }
 
@@ -28,9 +29,9 @@ namespace TreacherousWaters
         /// Endgame stats popup coroutine.
         /// </summary>
         /// <returns></returns>
-        IEnumerator PopupCoroutine()
+        IEnumerator PopupCoroutine(float delay)
         {
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(delay);
             GetComponent<PopupOpener>().OpenPopup();
         }
     }

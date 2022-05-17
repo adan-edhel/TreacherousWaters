@@ -12,7 +12,14 @@ namespace TreacherousWaters
         public float timeLeft = 300; // 5 minutes
         bool gameOver;
 
+        [SerializeField] Transform[] playerSpawns = new Transform[4];
+
         private void Awake() { instance = this; }
+
+        public Vector3 GetRandomSpawnPosition()
+        {
+            return playerSpawns[Random.Range(0, playerSpawns.Length - 1)].position;
+        }
 
         private void Update()
         {
@@ -29,8 +36,20 @@ namespace TreacherousWaters
         /// </summary>
         public void EndGame()
         {
-            EventContainer.onGameOver.Invoke();
+            EventContainer.onGameOver.Invoke(false);
             gameOver = true;
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.green;
+            if (playerSpawns.Length > 0)
+            {
+                for (int i = 0; i < playerSpawns.Length; i++)
+                {
+                    Gizmos.DrawSphere(playerSpawns[i].position, 2);
+                }
+            }
         }
     }
 }

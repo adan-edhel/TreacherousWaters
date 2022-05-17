@@ -8,6 +8,8 @@ namespace TreacherousWaters
         ISetWaypoint iSetWaypoint;
         IFire iFire;
 
+        Broadside currentSide;
+
         /// <summary>
         /// Layer mask for layers detected to set waypoints on.
         /// </summary>
@@ -41,13 +43,24 @@ namespace TreacherousWaters
         /// <param name="value"></param>
         private void OnFire()
         {
-            iFire?.Fire();
+            iFire?.Fire(currentSide);
+        }
+
+        private void OnSwitchBroadside(InputValue value)
+        {
+            if (value.Get<float>() == 0) return;
+            currentSide = (value.Get<float>() < 0 ? Broadside.port : Broadside.starboard);
+        }
+
+        private void OnQuit()
+        {
+            EventContainer.onGameOver.Invoke(false);
         }
 
         /// <summary>
         /// Deactivates player input & NavMeshAgent.
         /// </summary>
-        private void OnGameOver()
+        private void OnGameOver(bool delayed)
         {
             GetComponent<UnityEngine.AI.NavMeshAgent>().isStopped = true;
             GetComponent<PlayerInput>().DeactivateInput();

@@ -9,6 +9,8 @@ namespace TreacherousWaters
 
         ISetWaypoint iSetWaypoint;
 
+        [SerializeField] GameObject goldChest;
+
         bool sunkByPlayer;
 
         void Start()
@@ -49,11 +51,14 @@ namespace TreacherousWaters
             base.OnSink();
             sunkByPlayer = true;
             Destroy(gameObject, 5);
+
+            if (goldChest) Instantiate(goldChest, transform.position + (Vector3.up * 1), Quaternion.identity);
         }
 
         private void OnDestroy()
         {
-            EventContainer.onDestroyedMerchant?.Invoke(this, sunkByPlayer);
+            bool revengeMission = homePier != null ? true : false;
+            EventContainer.onDestroyedMerchant?.Invoke(this, sunkByPlayer && revengeMission);
         }
 
         private void OnDrawGizmos()

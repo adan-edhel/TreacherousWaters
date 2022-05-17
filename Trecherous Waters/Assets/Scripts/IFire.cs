@@ -2,7 +2,7 @@ namespace TreacherousWaters
 {
     public interface IFire
     {
-        public void Fire();
+        public void Fire(Broadside side);
     }
 }
 

@@ -4,6 +4,12 @@ using UnityEngine;
 
 namespace TreacherousWaters
 {
+    public enum Broadside
+    {
+        port,
+        starboard
+    }
+
     public class ShipCombat : MonoBehaviour, IFire, ISwitchAmmo
     {
         [SerializeField] Transform barrelDropPoint;
@@ -12,8 +18,9 @@ namespace TreacherousWaters
 
         [SerializeField] AmmunitionType currentAmmo = AmmunitionType.Cannonball;
 
-        private float loadCounter;
-        private bool canFire => loadCounter <= 0;
+        [SerializeField] float[] loadCounters = new float[2];
+        private bool portLoaded => loadCounters[0] <= 0;
+        private bool starboardLoaded => loadCounters[1] <= 0;
 
         private Collider shipCollider;
 
@@ -24,50 +31,84 @@ namespace TreacherousWaters
 
         protected virtual void Update()
         {
-            if (loadCounter > 0) loadCounter -= Time.deltaTime;
+            for (int i = 0; i < loadCounters.Length; i++)
+            {
+                if (loadCounters[i] > 0)
+                {
+                    loadCounters[i] -= Time.deltaTime;
+                }
+            }
         }
 
         public void SwitchAmmunition(AmmunitionType type)
         {
             currentAmmo = type;
-            loadCounter = projectiles[(int)currentAmmo].loadTime;
+            for (int i = 0; i < loadCounters.Length; i++)
+            {
+                loadCounters[i] = projectiles[(int)currentAmmo].loadTime;
+            }
         }
 
-        public void Fire()
+        public void Fire(Broadside side)
         {
-            if (!canFire) return;
-
-            if ((int)currentAmmo == 2)
+            if ((int)currentAmmo != 2)
             {
-                DropBarrel();
+                switch (side)
+                {
+                    case Broadside.port:
+                        if (!portLoaded) return;
+                        break;
+                    case Broadside.starboard:
+                        if (!starboardLoaded) return;
+                        break;
+                }
+
+                ShootBroadside(side);
             }
             else
             {
-                ShootBroadside();
+                DropBarrel();
             }
-
-            loadCounter = projectiles[0].loadTime;
         }
 
-        private void ShootBroadside()
+        private void ShootBroadside(Broadside side)
         {
             foreach (Transform cannon in cannons)
             {
                 // Check if cannon is on portside (left side of the ship)
                 bool portside = cannon.localPosition.x < 0;
 
+                // Shoots only if cannon is on the currently selected side.
+                if (portside) { if (side == Broadside.starboard) { continue; } }
+                else { if (side == Broadside.port) { continue; } }
+
                 // Rotate cannon balls to match side
                 float rotateDegrees = portside ? -90 : 90;
 
                 StartCoroutine(ShootCannon(cannon.position, rotateDegrees));
+
+                // Sets sides to load.
+                if (portside) 
+                { 
+                    loadCounters[0] = projectiles[(int)currentAmmo].loadTime; 
+                }
+                else 
+                { 
+                    loadCounters[1] = projectiles[(int)currentAmmo].loadTime; 
+                }
             }
         }
 
         private void DropBarrel()
         {
+            if (!portLoaded) return;
+
             var randomRotation = Quaternion.Euler(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
             Barrel barrel = Instantiate(projectiles[2].prefab, barrelDropPoint.position, randomRotation).GetComponent<Barrel>();
+
             barrel.data = projectiles[2];
+
+            loadCounters[0] = projectiles[(int)currentAmmo].loadTime;
         }
 
         IEnumerator ShootCannon(Vector3 position, float rotation)

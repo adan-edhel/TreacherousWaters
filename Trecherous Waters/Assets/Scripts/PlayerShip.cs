@@ -18,6 +18,11 @@ namespace TreacherousWaters
             Instance = gameObject;
         }
 
+        private void Start()
+        {
+            transform.position = GameManager.instance.GetRandomSpawnPosition();
+        }
+
         protected override void OnSink()
         {
             base.OnSink();

@@ -6,7 +6,7 @@ namespace TreacherousWaters
 {
     public class MilitaryShip : ShipBase
     {
-        iCombatAIFunctions iCombatFunctions;
+        ICombatFunctions iCombatFunctions;
         ISetWaypoint iSetWaypoint;
         Transform player;
 
@@ -16,7 +16,7 @@ namespace TreacherousWaters
         void Start()
         {
             player = PlayerShip.Instance.transform;
-            iCombatFunctions = GetComponent<iCombatAIFunctions>();
+            iCombatFunctions = GetComponent<ICombatFunctions>();
             iSetWaypoint = GetComponent<ISetWaypoint>();
         }
 
@@ -24,6 +24,13 @@ namespace TreacherousWaters
         {
             iSetWaypoint?.SetWaypoint(player.position);
             RotateShip();
+        }
+
+        protected override void OnSink()
+        {
+            base.OnSink();
+            iCombatFunctions.IsSunk(true);
+            Destroy(gameObject, 5f);
         }
 
         /// <summary>
