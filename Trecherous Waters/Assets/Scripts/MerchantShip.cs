@@ -1,38 +1,62 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace TreacherousWaters
 {
     public class MerchantShip : ShipBase
     {
+        [SerializeField] GameObject goldChest;
+        [SerializeField] bool destroyOnFinalDestination = true;
+
         public GameObject homePier { get; private set; }
-        public GameObject destinationPier;
+        private Queue<GameObject> destinations = new Queue<GameObject>();
 
         ISetWaypoint iSetWaypoint;
 
-        [SerializeField] GameObject goldChest;
-
         bool sunkByPlayer;
+        bool docked;
 
         void Start()
         {
             iSetWaypoint = GetComponent<ISetWaypoint>();
 
-            if (destinationPier != null)
+            if (destinations.Count > 0)
             {
-                iSetWaypoint.SetWaypoint(destinationPier.transform.position);
+                iSetWaypoint.SetWaypoint(destinations.Peek().transform.position);
             }
         }
 
         private void Update()
         {
-            if (destinationPier)
+            if (destinations.Count > 0)
             {
-                float distance = Vector3.Distance(transform.position, destinationPier.transform.position);
-                if (distance <= 1f)
+                float distance = Vector3.Distance(transform.position, destinations.Peek().transform.position);
+                if (distance <= 1f && !docked)
                 {
-                    Destroy(gameObject, 1);
+                    docked = true;
+                    Invoke("SailToNewPier", 1f);
                 }
             }
+        }
+
+        /// <summary>
+        /// Removes current pier from the queue and assigns next pier as destination.
+        /// </summary>
+        private void SailToNewPier()
+        {
+            destinations.Dequeue();
+            if (destinations.Count == 0)
+            {
+                if (destroyOnFinalDestination)
+                {
+                    Destroy(gameObject);
+                }
+            }
+            else
+            {
+                iSetWaypoint.SetWaypoint(destinations.Peek().transform.position);
+            }
+            docked = false;
         }
 
         /// <summary>
@@ -40,10 +64,13 @@ namespace TreacherousWaters
         /// </summary>
         /// <param name="home"></param>
         /// <param name="destination"></param>
-        public void AssignPiers(GameObject home, GameObject destination)
+        public void AssignPiers(GameObject home, List<GameObject> piers)
         {
-            destinationPier = destination;
             homePier = home;
+            for (int i = 0; i < piers.Count; i++)
+            {
+                destinations.Enqueue(piers[i]);
+            }
         }
 
         protected override void OnSink()
@@ -57,14 +84,27 @@ namespace TreacherousWaters
 
         private void OnDestroy()
         {
+            // Removes the ship from the list of active merchant ships and 
+            // starts a revenge mission if the ship has a home pier
             bool revengeMission = homePier != null ? true : false;
             EventContainer.onDestroyedMerchant?.Invoke(this, sunkByPlayer && revengeMission);
         }
 
         private void OnDrawGizmos()
         {
+            // Draws a sphere around the ship to see better in editor.
             Gizmos.color = Color.cyan;
             Gizmos.DrawWireSphere(transform.position, 20);
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            // Draws target piers.
+            Gizmos.color = Color.yellow;
+            foreach (GameObject obj in destinations)
+            {
+                Gizmos.DrawSphere(obj.transform.position, 20);
+            }
         }
     }
 }

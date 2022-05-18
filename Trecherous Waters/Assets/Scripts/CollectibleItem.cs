@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TreacherousWaters
 {
-    public class CollectibleItem : MonoBehaviour, IDealDamage
+    public class CollectibleItem : MonoBehaviour, IAdjustIntegrity
     {
         public float integrity { get; private set; } = 100;
 
@@ -20,7 +20,7 @@ namespace TreacherousWaters
             Destroy(gameObject);
         }
 
-        public void DealDamage(float value)
+        public void AdjustIntegrity(float value)
         {
             integrity -= value;
             if (integrity <= 0)

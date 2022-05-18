@@ -35,9 +35,9 @@ namespace TreacherousWaters
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.transform.TryGetComponent(out IDealDamage ship))
+            if (collision.transform.TryGetComponent(out IAdjustIntegrity ship))
             {
-                ship.DealDamage(data.damage);
+                ship.AdjustIntegrity(data.damage);
                 Destroy(gameObject, 1f);
 
 

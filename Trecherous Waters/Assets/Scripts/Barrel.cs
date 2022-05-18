@@ -39,9 +39,9 @@ namespace TreacherousWaters
                 {
                     for (int x = 0; x < hits.Length; x++)
                     {
-                        if (hits[x].TryGetComponent<IDealDamage>(out IDealDamage ship))
+                        if (hits[x].TryGetComponent<IAdjustIntegrity>(out IAdjustIntegrity ship))
                         {
-                            ship.DealDamage(data.damage);
+                            ship.AdjustIntegrity(data.damage);
                         }
                     }
                     Instantiate(data.particleShipImpact, transform.position, Quaternion.identity);

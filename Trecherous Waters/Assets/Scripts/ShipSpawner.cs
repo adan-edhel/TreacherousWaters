@@ -67,12 +67,15 @@ namespace TreacherousWaters
 
             // Select a random other pier from list
             List<GameObject> otherPiers = piers.Where(pier => pier != piers[homePier]).ToList();
-            int targetPier = Random.Range(0, otherPiers.Count - 1);
+            otherPiers = otherPiers.OrderBy(x => Random.value).ToList();
+            int piersToRemove = Random.Range(1, 3);
+            int piersLeft = (piers.Count - piersToRemove) - 1;
+            otherPiers.RemoveRange(piersLeft, piersToRemove);
 
             // Instantiate ship & assign required references
             MerchantShip ship = Instantiate(MerchantShipPrefab, piers[homePier].transform.position, Quaternion.identity).GetComponent<MerchantShip>();
-            ship.AssignPiers(piers[homePier], otherPiers[targetPier]);
             ship.transform.SetParent(shipContainer.transform);
+            ship.AssignPiers(piers[homePier], otherPiers);
             merchantShips.Add(ship);
 
             // Reset spawn interval counter
