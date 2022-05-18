@@ -66,7 +66,7 @@ namespace TreacherousWaters
 
         private void UpdateGUIStats(int amount)
         {
-            targetGold = amount;
+            targetGold += amount;
         }
 
         public void UpdateUIBroadside(Broadside side)

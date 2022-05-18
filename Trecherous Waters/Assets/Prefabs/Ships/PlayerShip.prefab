@@ -3741,6 +3741,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dad2cdd3b514ae04584ae0aa6705c5b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  randomizePositionOnStart: 1
 --- !u!114 &1063270157132964146
 MonoBehaviour:
   m_ObjectHideFlags: 0

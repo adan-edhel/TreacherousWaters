@@ -23,9 +23,11 @@ namespace TreacherousWaters
 
         private void Update()
         {
+            if (gameOver) return;
+
             timeLeft -= Time.deltaTime;
 
-            if (timeLeft <= 0 && !gameOver)
+            if (timeLeft <= 0)
             {
                 EndGame();
             }
