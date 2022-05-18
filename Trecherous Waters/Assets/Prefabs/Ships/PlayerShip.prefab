@@ -3624,6 +3624,7 @@ GameObject:
   - component: {fileID: 1063270157132964149}
   - component: {fileID: 1063270157132964147}
   - component: {fileID: 8890473504625273194}
+  - component: {fileID: 8153160368905443790}
   m_Layer: 29
   m_Name: PlayerShip
   m_TagString: Player
@@ -3741,6 +3742,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dad2cdd3b514ae04584ae0aa6705c5b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxIntegrity: 100
   randomizePositionOnStart: 1
 --- !u!114 &1063270157132964146
 MonoBehaviour:
@@ -3898,6 +3900,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8153160368905443790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1063270157132964136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11e02baec9fe9c44385f424f4be33d70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waypointMarker: {fileID: 1411872020893398154, guid: 20698e4d61ea32749b87391eda7c0160, type: 3}
+  color: {r: 0.735849, g: 0.6495593, b: 0.2256141, a: 1}
 --- !u!1 &1063270157338936767
 GameObject:
   m_ObjectHideFlags: 0

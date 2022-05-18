@@ -5,6 +5,7 @@ namespace TreacherousWaters
 {
     public class ShipBase : MonoBehaviour, IAdjustIntegrity
     {
+        [Tooltip("Default value: 100")]
         public float maxIntegrity = 100;
         public float integrity { get; private set; }
 

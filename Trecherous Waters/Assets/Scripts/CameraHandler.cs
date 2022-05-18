@@ -13,6 +13,8 @@ namespace TreacherousWaters
 
         public static ICameraInput iCameraInput { get; private set; }
 
+        Vector3 rotation;
+
         Vector2 rotateInput;
         float zoomInput;
         bool rotating;
@@ -32,9 +34,13 @@ namespace TreacherousWaters
 
             if (rotating)
             {
-                var rotation = new Vector3(-rotateInput.y, rotateInput.x, 0);
-                transform.eulerAngles += rotation;
+                rotation = new Vector3(-rotateInput.y, rotateInput.x, 0);
             }
+            else
+            {
+                rotation = Vector3.Lerp(rotation, Vector3.zero, .05f);
+            }
+            transform.eulerAngles += rotation * Time.deltaTime;
         }
 
         public void Rotation(Vector2 input) 

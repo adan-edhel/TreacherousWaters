@@ -9,7 +9,7 @@ namespace TreacherousWaters
     [RequireComponent(typeof(NavMeshAgent)), DisallowMultipleComponent]
     public class ShipMovement : MonoBehaviour, ISetWaypoint
     {
-        NavMeshAgent agent;
+        public NavMeshAgent agent { get; private set; }
         ParticleSystem wakeParticle;
         AudioSource audioSource;
 

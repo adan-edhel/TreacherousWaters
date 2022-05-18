@@ -18,7 +18,7 @@ namespace TreacherousWaters
         [SerializeField] LayerMask navigableTerrain;
 
         [Header("Spawner Values")]
-        [SerializeField] float spawnHeight = 1;
+        [SerializeField] float spawnHeight = 5;
         [SerializeField] float spawnInterval = 4;
         [SerializeField] float pickupLifetime = 40;
         [SerializeField] float maxSpawnedPickups = 30;
