@@ -10,6 +10,8 @@ namespace TreacherousWaters
         public float maxIntegrity = 100;
         public float integrity { get; private set; }
 
+        public float checkIntegrity;
+
         private bool sunk;
         private bool smoking;
 
@@ -31,7 +33,11 @@ namespace TreacherousWaters
 
         private void LateUpdate()
         {
-            GameUI.Instance.HandleIntegrityBar(integrity, 100);
+            if (gameObject.CompareTag("Player"))
+            {
+                GameUI.Instance.HandleIntegrityBar(integrity, maxIntegrity);
+            }
+            checkIntegrity = integrity;
         }
 
         /// <summary>
