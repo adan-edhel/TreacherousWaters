@@ -4,7 +4,7 @@ using TMPro;
 namespace TreacherousWaters
 {
     /// <summary>
-    /// A class that updates fields of stats on the endgame screen popup.
+    /// Updates fields of stats on the endgame screen popup.
     /// </summary>
     public class EndgameStats : MonoBehaviour
     {

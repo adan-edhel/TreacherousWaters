@@ -4,13 +4,20 @@ using UnityEngine;
 
 namespace TreacherousWaters
 {
+    /// <summary>
+    /// Handles basic ship functions such as taking damage and sinking.
+    /// </summary>
     public class ShipBase : MonoBehaviour, IAdjustIntegrity
     {
+        /// <summary>
+        /// Maximum ship integrity.
+        /// </summary>
         [Tooltip("Default value: 100")]
         public float maxIntegrity = 100;
+        /// <summary>
+        /// Concurrent ship integrity.
+        /// </summary>
         public float integrity { get; private set; }
-
-        public float checkIntegrity;
 
         private bool sunk;
         private bool smoking;
@@ -31,19 +38,10 @@ namespace TreacherousWaters
             animator.Play("Bobbing", -1, Random.Range(0f, 1f));
         }
 
-        private void LateUpdate()
-        {
-            if (gameObject.CompareTag("Player"))
-            {
-                GameUI.Instance.HandleIntegrityBar(integrity, maxIntegrity);
-            }
-            checkIntegrity = integrity;
-        }
-
         /// <summary>
         /// Changes the integrity value of the ship.
         /// </summary>
-        public void AdjustIntegrity(float value)
+        protected virtual void AdjustIntegrity(float value)
         {
             integrity -= value;
             integrity = Mathf.Clamp(integrity, 0, maxIntegrity);

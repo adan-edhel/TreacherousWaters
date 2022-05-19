@@ -1,14 +1,19 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.AI;
 using UnityEngine;
 
 namespace TreacherousWaters
 {
+    /// <summary>
+    /// Handles creation of ammunition spawn positions and the spawning 
+    /// of ammunition pickups in the game.
+    /// </summary>
     public class AmmunitionSpawner : MonoBehaviour
     {
         [Header("Debug")]
+        // Shows casting grid and distribution through the level.
         [SerializeField] bool showCastVisuals;
+        // Shows generated spawn positions.
         [SerializeField] bool showSpawnPositions;
 
         [Header("Cast Values")]

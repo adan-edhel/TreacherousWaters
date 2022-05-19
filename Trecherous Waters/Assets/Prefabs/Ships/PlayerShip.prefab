@@ -3747,6 +3747,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxIntegrity: 100
+  checkIntegrity: 0
   explosionParticle: {fileID: 6405671179541518164, guid: 7315970e9c618cb4db06de42b29adeec, type: 3}
   smokes:
   - {fileID: 6211142514279713126}

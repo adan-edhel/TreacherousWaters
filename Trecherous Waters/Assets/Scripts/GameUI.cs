@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine.UI;
 using UltimateClean;
 using UnityEngine;
@@ -8,12 +8,10 @@ using TMPro;
 namespace TreacherousWaters
 {
     /// <summary>
-    /// Handles all GUI related tasks.
+    /// Handles all UI related tasks.
     /// </summary>
     public class GameUI : MonoBehaviour
     {
-        public static GameUI Instance { get; private set; }
-
         [SerializeField] TextMeshProUGUI timerText;
 
         [SerializeField, Range(0, 1)] float targetValue = 1f;
@@ -32,69 +30,73 @@ namespace TreacherousWaters
 
         [SerializeField] List<Sprite> ammunitionIcons = new List<Sprite>();
 
-        private void Awake()
-        {
-            Instance = this; 
-        }
-
         void Start()
         {
             EventContainer.onGameOver += OnEndGame;
-            EventContainer.OnUpdateGUIGold += UpdateGUIStats;
-            EventContainer.onDestroyedGUIBroadside += GUIBottom;
+
+            EventContainer.OnUpdateGameUI += HandleGoldValue;
+            EventContainer.OnUpdateCombatUI += HandleCombatUI;
+
+            EventContainer.onPlayerIntegrityChanged += HandleIntegrityValues;
 
             broadsideStartColor = broadsideIcons[0].color;
         }
 
-        private void OnValidate()
-        {
-            GUIValues();
-        }
-
         private void LateUpdate()
         {
-            float minutes = Mathf.FloorToInt(GameManager.instance.timeLeft / 60);
-            float seconds = Mathf.FloorToInt(GameManager.instance.timeLeft % 60);
+            HandleGameUIElements();
+        }
+
+        /// <summary>
+        /// Updates all non-combat UI elements to their concurrent values.
+        /// </summary>
+        private void HandleGameUIElements()
+        {
+            // Timer
+            float timeLeft = GameManager.instance.timeLeft;
+            float minutes = Mathf.FloorToInt(timeLeft / 60);
+            float seconds = Mathf.FloorToInt(timeLeft % 60);
 
             timerText.text = string.Format("{0:00} : {1:00}", minutes, seconds);
 
-            GUIValues();
-        }
-
-        private void GUIValues()
-        {
+            // Integrity bar
             integrityBar.fillAmount = Mathf.Lerp(integrityBar.fillAmount, targetValue, 3f * Time.deltaTime);
             integrityPerc.text = Mathf.Round(integrityBar.fillAmount * 100).ToString() + "%";
 
+            // Gold amount
             goldAmount = Mathf.Lerp(goldAmount, targetGold, 3f * Time.deltaTime);
             guiGold.text = Mathf.Round(goldAmount).ToString();
         }
 
-        public void HandleIntegrityBar(float integrity, float maxIntegrity)
-        {
-            targetValue = integrity / maxIntegrity;
-        }
-
-        private void UpdateGUIStats(int amount)
+        /// <summary>
+        /// Updates target gold value for the game UI.
+        /// </summary>
+        /// <param name="amount"></param>
+        private void HandleGoldValue(int amount)
         {
             targetGold += amount;
         }
 
-        public void UpdateUIAmmo(int index)
+        /// <summary>
+        /// Handles activation & deactivation, animation and alteration of 
+        /// combat elements on the game UI.
+        /// </summary>
+        /// <param name="loads"></param>
+        /// <param name="loadtime"></param>
+        /// <param name="type"></param>
+        public void HandleCombatUI(float[] loads, float loadtime, AmmunitionType type)
         {
-            ammunitionIcon.sprite = ammunitionIcons[index];
-        }
+            // Update middle icon
+            ammunitionIcon.sprite = ammunitionIcons[(int)type];
 
-        public void GUIBottom(float[] loads, float loadtime, AmmunitionType type)
-        {
             if (type != AmmunitionType.Barrel)
             {
+                // Fill middle icon
                 broadsideIcons[2].fillAmount = 1;
-                for (int i = 0; i < broadsideFrames.Length; i++)
-                {
-                    broadsideFrames[i].SetActive(true);
-                }
+                // Set broadside icons to active
+                for (int i = 0; i < broadsideFrames.Length; i++) { broadsideFrames[i].SetActive(true); }
 
+                // Update & fill port icon
                 if (loads[0] > 0)
                 {
                     broadsideIcons[0].color = loadingColor;
@@ -105,6 +107,7 @@ namespace TreacherousWaters
                     broadsideIcons[0].color = broadsideStartColor;
                 }
 
+                // Update & fill starboard icon
                 if (loads[1] > 0)
                 {
                     broadsideIcons[1].color = loadingColor;
@@ -115,15 +118,15 @@ namespace TreacherousWaters
                     broadsideIcons[1].color = broadsideStartColor;
                 }
 
+                // Set middle icon to blank color
                 broadsideIcons[2].color = loadingColor;
             }
             else
             {
-                for (int i = 0; i < broadsideFrames.Length; i++)
-                {
-                    broadsideFrames[i].SetActive(false);
-                }
+                // Set broadside icons to inactive
+                for (int i = 0; i < broadsideFrames.Length; i++) { broadsideFrames[i].SetActive(false); }
 
+                // Update & fill middle/barrel icon
                 if (loads[0] > 0)
                 {
                     broadsideIcons[2].color = loadingColor;
@@ -137,19 +140,31 @@ namespace TreacherousWaters
         }
 
         /// <summary>
-        /// Starts endgame stats popup courotine.
+        /// Updates target integrity value for the game UI.
+        /// </summary>
+        /// <param name="integrity"></param>
+        /// <param name="maxIntegrity"></param>
+        public void HandleIntegrityValues(float integrity, float maxIntegrity)
+        {
+            targetValue = integrity / maxIntegrity;
+        }
+
+        /// <summary>
+        /// Starts Endscreen popup coroutine with a delay and unsubscribes all functions 
+        /// from their respective events.
         /// </summary>
         private void OnEndGame(bool delayed)
         {
             float delay = delayed ? 5 : 0;
             StartCoroutine(PopupCoroutine(delay));
             EventContainer.onGameOver -= OnEndGame;
-            EventContainer.OnUpdateGUIGold -= UpdateGUIStats;
-            EventContainer.onDestroyedGUIBroadside -= GUIBottom;
+            EventContainer.OnUpdateCombatUI -= HandleCombatUI;
+            EventContainer.OnUpdateGameUI -= HandleGoldValue;
+            EventContainer.onPlayerIntegrityChanged -= HandleIntegrityValues;
         }
 
         /// <summary>
-        /// Endgame stats popup coroutine.
+        /// Opens the end screen popup with a delay.
         /// </summary>
         /// <returns></returns>
         IEnumerator PopupCoroutine(float delay)

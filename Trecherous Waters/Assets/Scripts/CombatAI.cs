@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace TreacherousWaters
 {
+    /// <summary>
+    /// Handles combat behavior of NPCs.
+    /// </summary>
     public class CombatAI : ShipCombat, ICombatFunctions
     {
         [Header("AI values")]
@@ -12,6 +15,9 @@ namespace TreacherousWaters
         [SerializeField] float aimArc = 10;
         [SerializeField] float distToFire = 90;
 
+        /// <summary>
+        /// Dictates whether the ship will fire on the player. True by default.
+        /// </summary>
         public bool hostileShip = true;
 
         /// <summary>

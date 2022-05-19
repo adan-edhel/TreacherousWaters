@@ -1,9 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace TreacherousWaters
 {
+    /// <summary>
+    /// Handles collection of goldchests and addition of stolen gold to game stats.
+    /// </summary>
     public class PickupGoldchest : CollectibleItem
     {
         public int goldAmount = 50;

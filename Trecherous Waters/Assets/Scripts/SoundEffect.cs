@@ -1,9 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace TreacherousWaters
 {
+    /// <summary>
+    /// Handles playing of random clips in an AudioSource. Optionally can 
+    /// adjust the volume to add depth.
+    /// </summary>
     [RequireComponent(typeof(AudioSource))]
     public class SoundEffect : MonoBehaviour
     {

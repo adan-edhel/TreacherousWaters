@@ -1,15 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 
 namespace TreacherousWaters
 {
+    /// <summary>
+    /// Handles camera rotation and zoom through inputs.
+    /// </summary>
     public class CameraHandler : MonoBehaviour, ICameraInput
     {
         CinemachineVirtualCamera vCam;
         CinemachineFramingTransposer fTransposer;
 
+        /// <summary>
+        /// Singleton reference of the interface through which input is received.
+        /// </summary>
         public static ICameraInput iCameraInput { get; private set; }
 
         Vector3 rotation;
@@ -44,16 +48,28 @@ namespace TreacherousWaters
             transform.eulerAngles = clampedRotation;
         }
 
+        /// <summary>
+        /// Receives rotation input and delivers it for translation into camera rotation.
+        /// </summary>
+        /// <param name="input"></param>
         public void Rotation(Vector2 input) 
         {
             rotateInput = input;
         }
 
+        /// <summary>
+        /// Receives rotation toggle input.
+        /// </summary>
+        /// <param name="input"></param>
         public void ToggleRotate(bool input)
         {
             rotating = input;
         }
 
+        /// <summary>
+        /// Receives zoom input and delivers it for translation into camera zoom.
+        /// </summary>
+        /// <param name="input"></param>
         public void Zoom(float input)
         {
             zoomInput = -input;

@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace TreacherousWaters
 {
+    /// <summary>
+    /// Catches all input from the input system and delivers values & conditions to
+    /// concerned classes using interfaces.
+    /// </summary>
     public class InputHandler : MonoBehaviour
     {
         ISetWaypoint[] iSetWaypoint;
@@ -10,10 +14,13 @@ namespace TreacherousWaters
         IAddBoost iAddBoost;
         IFire iFire;
 
+        /// <summary>
+        /// Currently selected broadside.
+        /// </summary>
         public Broadside currentSide { get; private set; }
 
         /// <summary>
-        /// Layer mask for layers detected to set waypoints on.
+        /// Layer mask for surfaces to set waypoints on.
         /// </summary>
         public LayerMask navigableTerrain;
 

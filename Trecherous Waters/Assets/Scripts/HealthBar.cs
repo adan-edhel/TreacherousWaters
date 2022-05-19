@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace TreacherousWaters
 {
+    /// <summary>
+    /// Handles worldspace healthbars of AI ships.
+    /// </summary>
     [RequireComponent(typeof(ShipBase))]
     public class HealthBar : MonoBehaviour
     {

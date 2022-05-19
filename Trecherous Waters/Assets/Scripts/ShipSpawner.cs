@@ -4,10 +4,11 @@ using System.Linq;
 
 namespace TreacherousWaters
 {
+    /// <summary>
+    /// Handles spawning of merchant and military ships at ports.
+    /// </summary>
     public class ShipSpawner : MonoBehaviour
     {
-        public static ShipSpawner Instance { get; private set; }
-
         [Header("Values")]
         [SerializeField] int maxMerchantShips = 5;
         [SerializeField] Vector2 spawnShipIntervalRange = new Vector2(3, 10);
@@ -25,8 +26,6 @@ namespace TreacherousWaters
 
         private void Awake()
         {
-            Instance = this;
-
             // Catch exceptions
             if (!MerchantShipPrefab) { throw new System.Exception($"MerchantShip prefab not assigned to the {name} script on the {gameObject.name}!"); }
             if (!MilitaryShipPrefab) { throw new System.Exception($"MilitaryShip prefab not assigned to the {name} script on the {gameObject.name}!"); }

@@ -1,11 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace TreacherousWaters
 {
+    /// <summary>
+    /// Base collectible class for all pickups. Handles collision, integrity and destruction.
+    /// </summary>
     public class CollectibleItem : MonoBehaviour, IAdjustIntegrity
     {
+        /// <summary>
+        /// Integrity of the pickup item. Once it depletes, item is destroyed.
+        /// </summary>
         public float integrity { get; private set; } = 100;
 
         public float lifetime = 40;
@@ -15,12 +19,20 @@ namespace TreacherousWaters
             Destroy(gameObject, lifetime);
         }
 
+        /// <summary>
+        /// Handles base pickup behavior (destruction).
+        /// </summary>
+        /// <param name="collision"></param>
         protected virtual void OnPickup(Collision collision)
         {
             Destroy(gameObject);
         }
 
-        public void AdjustIntegrity(float value)
+        /// <summary>
+        /// Delivers damage to integrity.
+        /// </summary>
+        /// <param name="value"></param>
+        protected virtual void AdjustIntegrity(float value)
         {
             integrity -= value;
             if (integrity <= 0)

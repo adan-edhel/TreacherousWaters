@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace TreacherousWaters
 {
+    /// <summary>
+    /// Handles projectile behavior (cannonballs & chainballs).
+    /// </summary>
     public class Projectile : MonoBehaviour
     {
         private ProjectileScriptableObject data;
@@ -21,6 +24,12 @@ namespace TreacherousWaters
             }
         }
 
+        /// <summary>
+        /// Makes the projectile ignore collisions with owner, assigns projectile data 
+        /// and adds force to the object in forward direction.
+        /// </summary>
+        /// <param name="ownerCollider"></param>
+        /// <param name="projectileData"></param>
         public void OnShot(Collider ownerCollider, ProjectileScriptableObject projectileData)
         {
             Physics.IgnoreCollision(ownerCollider, GetComponent<Collider>());

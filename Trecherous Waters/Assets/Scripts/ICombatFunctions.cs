@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace TreacherousWaters
 {
+    /// <summary>
+    /// Delivers input for combat functions.
+    /// </summary>
     public interface ICombatFunctions
     {
         /// <summary>

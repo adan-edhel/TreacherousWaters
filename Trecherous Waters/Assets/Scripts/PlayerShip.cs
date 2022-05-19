@@ -1,14 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace TreacherousWaters
 {
     /// <summary>
-    /// A class that inherits from the ShipBase class and handles all player ship specific functions.
+    /// Handles all player ship specific functions.
     /// </summary>
     public class PlayerShip : ShipBase
     {
+        /// <summary>
+        /// Singleton instance for NPC use.
+        /// </summary>
         public static GameObject Instance { get; private set; }
 
         [SerializeField] bool randomizePositionOnStart;
@@ -16,13 +17,19 @@ namespace TreacherousWaters
         protected override void Awake()
         {
             base.Awake();
-
             Instance = gameObject;
         }
 
         private void Start()
         {
+            // If checked, randomizes player start position.
             if (randomizePositionOnStart) transform.position = GameManager.instance.GetRandomSpawnPosition();
+        }
+
+        protected override void AdjustIntegrity(float value)
+        {
+            base.AdjustIntegrity(value);
+            EventContainer.onPlayerIntegrityChanged.Invoke(integrity, maxIntegrity);
         }
 
         protected override void OnSink()

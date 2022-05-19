@@ -3,11 +3,17 @@ using UnityEngine;
 
 namespace TreacherousWaters
 {
+    /// <summary>
+    /// Handles merchant ship specific behaviors.
+    /// </summary>
     public class MerchantShip : ShipBase
     {
         [SerializeField] GameObject goldChest;
         [SerializeField] bool destroyOnFinalDestination = true;
 
+        /// <summary>
+        /// The home pier the ship belongs to.
+        /// </summary>
         public GameObject homePier { get; private set; }
         private Queue<GameObject> destinations = new Queue<GameObject>();
 
@@ -60,7 +66,7 @@ namespace TreacherousWaters
         }
 
         /// <summary>
-        /// Assign required pier references to the ship.
+        /// Assigns required pier references to the ship.
         /// </summary>
         /// <param name="home"></param>
         /// <param name="destination"></param>

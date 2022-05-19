@@ -1,9 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace TreacherousWaters
 {
+    /// <summary>
+    /// Handles player healing inside a given radius.
+    /// </summary>
     public class HealingArea : MonoBehaviour
     {
         [SerializeField] float healingRadius = 50;

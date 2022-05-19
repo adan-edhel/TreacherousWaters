@@ -1,9 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace TreacherousWaters
 {
+    /// <summary>
+    /// Handles animation of humanoid characters.
+    /// </summary>
     public class AnimatedCharacter : MonoBehaviour
     {
         [SerializeField] bool randomizeAnimation = true;
@@ -38,6 +39,9 @@ namespace TreacherousWaters
             }
         }
 
+        /// <summary>
+        /// Destroys the character.
+        /// </summary>
         public void HandleDeath()
         {
             Destroy(gameObject);

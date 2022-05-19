@@ -1,9 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace TreacherousWaters
 {
+    /// <summary>
+    /// Handles visualization of broadside firing arc using a linerenderer.
+    /// </summary>
     [RequireComponent(typeof(LineRenderer))]
     public class BroadsideVisualizer : MonoBehaviour
     {

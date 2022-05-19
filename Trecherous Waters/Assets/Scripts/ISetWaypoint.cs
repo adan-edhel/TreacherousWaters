@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace TreacherousWaters
 {
+    /// <summary>
+    /// Delivers waypoint destinations between classes.
+    /// </summary>
     public interface ISetWaypoint
     {
         /// <summary>

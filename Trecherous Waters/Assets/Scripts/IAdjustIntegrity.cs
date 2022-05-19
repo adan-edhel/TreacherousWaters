@@ -5,7 +5,14 @@ namespace TreacherousWaters
     /// </summary>
     public interface IAdjustIntegrity
     {
-        public void AdjustIntegrity(float value);
+        /// <summary>
+        /// Adds or subtracts integrity value.
+        /// </summary>
+        /// <param name="value"></param>
+        public virtual void AdjustIntegrity(float value)
+        {
+
+        }
     }
 }
 

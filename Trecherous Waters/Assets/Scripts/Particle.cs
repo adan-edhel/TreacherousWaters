@@ -1,9 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace TreacherousWaters
 {
+    /// <summary>
+    /// Handles destruction of particles after they've played out, with an optional delay.
+    /// </summary>
     [RequireComponent(typeof(ParticleSystem))]
     public class Particle : MonoBehaviour
     {

@@ -7,19 +7,20 @@ namespace TreacherousWaters
     /// </summary>
     public class GameManager : MonoBehaviour
     {
+        /// <summary>
+        /// Singleton instance.
+        /// </summary>
         public static GameManager instance { get; private set; }
 
+        /// <summary>
+        /// Time left until game ends.
+        /// </summary>
         public float timeLeft { get; private set; } = 300; // 5 minutes
         bool gameOver;
 
         [SerializeField] Transform[] playerSpawns = new Transform[4];
 
         private void Awake() { instance = this; }
-
-        public Vector3 GetRandomSpawnPosition()
-        {
-            return playerSpawns[Random.Range(0, playerSpawns.Length - 1)].position;
-        }
 
         private void Update()
         {
@@ -31,6 +32,15 @@ namespace TreacherousWaters
             {
                 EndGame();
             }
+        }
+
+        /// <summary>
+        /// Returns a random position for the player to start at.
+        /// </summary>
+        /// <returns></returns>
+        public Vector3 GetRandomSpawnPosition()
+        {
+            return playerSpawns[Random.Range(0, playerSpawns.Length - 1)].position;
         }
 
         /// <summary>

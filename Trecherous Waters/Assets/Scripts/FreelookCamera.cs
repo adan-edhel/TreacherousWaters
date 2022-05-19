@@ -5,29 +5,36 @@ using UnityEngine;
 
 namespace TreacherousWaters
 {
+    /// <summary>
+    /// Handles freelook camera rotation and zoom through inputs.
+    /// </summary>
     public class FreelookCamera : MonoBehaviour, ICameraInput
     {
+        /// <summary>
+        /// Singleton reference of the interface through which input is received.
+        /// </summary>
         public static ICameraInput iCameraInput { get; private set; }
 
         CinemachineFreeLook VCam;
         CinemachineFreeLook.Orbit[] originalOrbits;
 
+        /// <summary>
+        /// Minimum scale for zoom.
+        /// </summary>
         [Range(0.3f, 1f)]
         public float minScale = 0.4f;
-
+        /// <summary>
+        /// Maximum scale for zoom.
+        /// </summary>
         [Range(1f, 10f)]
         public float maxScale = 5f;
 
-        public float movementSpeed;
-        public float movementTime;
-
-        public Vector3 newPosition;
-
+        /// <summary>
+        /// Custom axis for zoom.
+        /// </summary>
         public AxisState zAxis = new AxisState(0, 1, false, true, 50f, 0.1f, 0.1f, "", false);
 
         bool canRotate;
-
-        Vector3 moveInput;
 
         private void Awake()
         {
@@ -56,6 +63,9 @@ namespace TreacherousWaters
             UpdateOrbit();
         }
 
+        /// <summary>
+        /// Updates freelook camera orbit using rotation and zoom input values.
+        /// </summary>
         void UpdateOrbit()
         {
             if (originalOrbits != null)
@@ -70,11 +80,19 @@ namespace TreacherousWaters
             }
         }
 
+        /// <summary>
+        /// Receives toggle rotate input.
+        /// </summary>
+        /// <param name="input"></param>
         public void ToggleRotate(bool input)
         {
             canRotate = input;
         }
 
+        /// <summary>
+        /// Receives rotation input.
+        /// </summary>
+        /// <param name="input"></param>
         public void Rotation(Vector2 input)
         {
             VCam.m_XAxis.m_InputAxisValue = canRotate ? input.x : 0;
@@ -83,6 +101,10 @@ namespace TreacherousWaters
             transform.eulerAngles = new Vector3(0, Camera.main.transform.eulerAngles.y, 0);
         }
 
+        /// <summary>
+        /// Receives zoom input.
+        /// </summary>
+        /// <param name="input"></param>
         public void Zoom(float input)
         {
             zAxis.m_InputAxisValue = -input / 1000;

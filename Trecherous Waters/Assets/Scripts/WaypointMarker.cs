@@ -6,6 +6,10 @@ using UnityEngine;
 
 namespace TreacherousWaters
 {
+    /// <summary>
+    /// Handles spawning and management of a waypoint marker to visualize 
+    /// player destination.
+    /// </summary>
     [RequireComponent(typeof(ShipMovement))]
     public class WaypointMarker : MonoBehaviour, ISetWaypoint
     {
@@ -52,6 +56,10 @@ namespace TreacherousWaters
             }
         }
 
+        /// <summary>
+        /// Receives destination from player input.
+        /// </summary>
+        /// <param name="destination"></param>
         public void SetWaypoint(Vector3 destination)
         {
             if (NavMesh.SamplePosition(destination, out hit, movement.navSampleRadius, NavMesh.AllAreas))

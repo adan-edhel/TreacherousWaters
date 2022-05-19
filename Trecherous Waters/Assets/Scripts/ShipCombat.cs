@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace TreacherousWaters
@@ -10,19 +9,43 @@ namespace TreacherousWaters
         starboard
     }
 
-    public class ShipCombat : MonoBehaviour, IFire, ISwitchAmmo
+    /// <summary>
+    /// Handles base ship combat functions.
+    /// </summary>
+    public class ShipCombat : MonoBehaviour, IFire, ISwitchAmmunition
     {
+        /// <summary>
+        /// Transform where barrels are instantiated.
+        /// </summary>
         [SerializeField] Transform barrelDropPoint;
+        /// <summary>
+        /// Array of transforms where cannonballs/chainballs are instantiated.
+        /// </summary>
         [SerializeField] Transform[] cannons;
+        /// <summary>
+        /// Array of available ammunition data.
+        /// </summary>
         [SerializeField] ProjectileScriptableObject[] projectiles;
 
+        /// <summary>
+        /// Currently equipped ammunition type.
+        /// </summary>
         public AmmunitionType currentAmmo { get; private set; }
 
-        [SerializeField] float[] loadCounters = new float[2];
-        public bool portLoaded => loadCounters[0] <= 0;
-        public bool starboardLoaded => loadCounters[1] <= 0;
+        /// <summary>
+        /// Cooldown counters for weapons.
+        /// </summary>
+        [SerializeField] float[] weaponCooldowns = new float[2];
+        /// <summary>
+        /// Returns whether port side cannons are loaded.
+        /// </summary>
+        public bool portLoaded => weaponCooldowns[0] <= 0;
+        /// <summary>
+        /// returns whether starboard side cannons are loaded.
+        /// </summary>
+        public bool starboardLoaded => weaponCooldowns[1] <= 0;
 
-        private Collider shipCollider;
+        Collider shipCollider;
 
         private void Start()
         {
@@ -31,33 +54,34 @@ namespace TreacherousWaters
 
         protected virtual void Update()
         {
-            for (int i = 0; i < loadCounters.Length; i++)
-            {
-                if (loadCounters[i] > 0)
-                {
-                    loadCounters[i] -= Time.deltaTime;
-                }
-            }
+            // Counts down cannon cooldowns
+            for (int i = 0; i < weaponCooldowns.Length; i++) { if (weaponCooldowns[i] > 0) { weaponCooldowns[i] -= Time.deltaTime; } }
 
-            if(PlayerShip.Instance.gameObject == gameObject) //TODO: Clean up
+            // If player, update the UI
+            if (gameObject.CompareTag("Player"))
             {
-                GameUI.Instance.GUIBottom(loadCounters, projectiles[(int)currentAmmo].loadTime, currentAmmo);
-                GameUI.Instance.UpdateUIAmmo((int)currentAmmo);
+                EventContainer.OnUpdateCombatUI(weaponCooldowns, projectiles[(int)currentAmmo].loadTime, currentAmmo);
             }
         }
 
+        /// <summary>
+        /// Switches ammunition type and resets loaded weapons.
+        /// </summary>
+        /// <param name="type"></param>
         public void SwitchAmmunition(AmmunitionType type)
         {
             if (currentAmmo != type)
             {
-                for (int i = 0; i < loadCounters.Length; i++)
-                {
-                    loadCounters[i] = projectiles[(int)type].loadTime;
-                }
+                // Reset cooldowns
+                for (int i = 0; i < weaponCooldowns.Length; i++) { weaponCooldowns[i] = projectiles[(int)type].loadTime; }
             }
             currentAmmo = type;
         }
 
+        /// <summary>
+        /// Fires a volley on selected side or drops a barrel depending on selected ammunition.
+        /// </summary>
+        /// <param name="side"></param>
         public void Fire(Broadside side)
         {
             if ((int)currentAmmo != 2)
@@ -80,6 +104,10 @@ namespace TreacherousWaters
             }
         }
 
+        /// <summary>
+        /// Fires a volley of cannons in given side/direction.
+        /// </summary>
+        /// <param name="side"></param>
         private void ShootBroadside(Broadside side)
         {
             foreach (Transform cannon in cannons)
@@ -87,7 +115,7 @@ namespace TreacherousWaters
                 // Check if cannon is on portside (left side of the ship)
                 bool portside = cannon.localPosition.x < 0;
 
-                // Shoots only if cannon is on the currently selected side.
+                // Shoots only if cannon is on the currently selected side
                 if (portside) { if (side == Broadside.starboard) { continue; } }
                 else { if (side == Broadside.port) { continue; } }
 
@@ -96,23 +124,33 @@ namespace TreacherousWaters
 
                 StartCoroutine(ShootCannon(cannon.position, rotateDegrees));
 
-                // Sets sides to load.
-                loadCounters[portside ? 0 : 1] = projectiles[(int)currentAmmo].loadTime;
+                // Sets sides to load again, 0 = left, 1 = right.
+                weaponCooldowns[portside ? 0 : 1] = projectiles[(int)currentAmmo].loadTime;
             }
         }
 
+        /// <summary>
+        /// Drops an explosive barrel behind the ship.
+        /// </summary>
         private void DropBarrel()
         {
             if (!portLoaded) return;
 
+            // Instantiate barrel with a random rotation
             var randomRotation = Quaternion.Euler(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
             Barrel barrel = Instantiate(projectiles[2].prefab, barrelDropPoint.position, randomRotation).GetComponent<Barrel>();
 
             barrel.data = projectiles[2];
 
-            loadCounters[0] = projectiles[(int)currentAmmo].loadTime;
+            weaponCooldowns[0] = projectiles[(int)currentAmmo].loadTime;
         }
 
+        /// <summary>
+        /// A coroutine that shoots cannons with slight random delays.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="rotation"></param>
+        /// <returns></returns>
         IEnumerator ShootCannon(Vector3 position, float rotation)
         {
             yield return new WaitForSeconds(Random.Range(0, .15f));
@@ -130,6 +168,7 @@ namespace TreacherousWaters
 
         private void OnDrawGizmosSelected()
         {
+            // Cannon positions
             if (cannons.Length > 0)
             {
                 Gizmos.color = Color.red;
@@ -138,6 +177,7 @@ namespace TreacherousWaters
                     Gizmos.DrawSphere(cannons[i].position, .5f);
                 }
             }
+            // Barrel dropoff position
             if (barrelDropPoint != null)
             {
                 Gizmos.DrawSphere(barrelDropPoint.position, .5f);

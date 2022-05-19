@@ -1,9 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace TreacherousWaters
 {
+    /// <summary>
+    /// Handles military ship specific behaviors.
+    /// </summary>
     public class MilitaryShip : ShipBase
     {
         ICombatFunctions iCombatFunctions;

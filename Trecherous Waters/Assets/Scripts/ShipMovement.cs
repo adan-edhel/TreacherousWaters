@@ -73,13 +73,17 @@ namespace TreacherousWaters
         }
 
         /// <summary>
-        /// Stops the NavMeshAgent of ship
+        /// Sets the stopping distance of a NavMeshAgent.
         /// </summary>
         public void SetStoppingDistance(float distance)
         {
             agent.stoppingDistance = distance;
         }
 
+        /// <summary>
+        /// Returns the remaining distance to destination.
+        /// </summary>
+        /// <returns></returns>
         public float GetRemainingDistance()
         {
             // If stopping distance is reached, stop NavMeshAgent rotation

@@ -1,11 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace TreacherousWaters
 {
+    /// <summary>
+    /// Handles explosive barrel behavior
+    /// </summary>
     public class Barrel : MonoBehaviour
     {
+        /// <summary>
+        /// Contains all ammunition data.
+        /// </summary>
         public ProjectileScriptableObject data;
 
         [SerializeField] float checkRadius = 50f;
