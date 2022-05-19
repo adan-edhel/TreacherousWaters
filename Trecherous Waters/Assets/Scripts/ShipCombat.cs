@@ -48,11 +48,14 @@ namespace TreacherousWaters
 
         public void SwitchAmmunition(AmmunitionType type)
         {
-            currentAmmo = type;
-            for (int i = 0; i < loadCounters.Length; i++)
+            if (currentAmmo != type)
             {
-                loadCounters[i] = projectiles[(int)currentAmmo].loadTime;
+                for (int i = 0; i < loadCounters.Length; i++)
+                {
+                    loadCounters[i] = projectiles[(int)type].loadTime;
+                }
             }
+            currentAmmo = type;
         }
 
         public void Fire(Broadside side)

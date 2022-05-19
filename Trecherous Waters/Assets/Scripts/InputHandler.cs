@@ -17,7 +17,7 @@ namespace TreacherousWaters
         /// </summary>
         public LayerMask navigableTerrain;
 
-        RaycastHit hit;
+        RaycastHit[] hits;
         bool rotating;
         bool setWaypoint;
 
@@ -45,10 +45,11 @@ namespace TreacherousWaters
         private void SetWaypointContinuous()
         {
             Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, navigableTerrain))
+            hits = Physics.RaycastAll(ray, Mathf.Infinity, navigableTerrain);
+            if (hits.Length > 0)
             {
-                if (hit.point.y < (transform.position.y - 5)) { return; }
-                for (int i = 0; i < iSetWaypoint.Length; i++) { iSetWaypoint[i]?.SetWaypoint(hit.point); }
+                //if (hits[0].point.y < 5 ) { return; }
+                for (int i = 0; i < iSetWaypoint.Length; i++) { iSetWaypoint[i]?.SetWaypoint(hits[0].point); }
             }
         }
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine.AI;
 using UnityEngine;
 
@@ -10,9 +11,13 @@ namespace TreacherousWaters
         public float integrity { get; private set; }
 
         private bool sunk;
+        private bool smoking;
 
         private Animator animator;
         private NavMeshAgent navAgent;
+
+        [SerializeField] GameObject explosionParticle;
+        [SerializeField] List<ParticleSystem> smokes = new List<ParticleSystem>();
 
         protected virtual void Awake()
         {
@@ -37,9 +42,42 @@ namespace TreacherousWaters
             integrity -= value;
             integrity = Mathf.Clamp(integrity, 0, maxIntegrity);
 
+            if (integrity <= maxIntegrity / 2)
+            {
+                if (!smoking)
+                {
+                    if (smokes.Count > 0)
+                    {
+                        for (int i = 0; i < smokes.Count; i++)
+                        {
+                            smokes[i].Play();
+                        }
+                    }
+                    smoking = true;
+                }
+            }
+            else
+            {
+                if (smoking)
+                {
+                    if (smokes.Count > 0)
+                    {
+                        for (int i = 0; i < smokes.Count; i++)
+                        {
+                            smokes[i].Stop();
+                        }
+                    }
+                    smoking = false;
+                }
+            }
+
             if (integrity <= 0 && !sunk)
             {
                 OnSink();
+                if (explosionParticle)
+                {
+                    Instantiate(explosionParticle, transform.position, Quaternion.identity);
+                }
             }
         }
 
@@ -52,6 +90,17 @@ namespace TreacherousWaters
             navAgent.isStopped = true;
             animator?.SetBool("Sunk", sunk);
             GetComponent<Collider>().enabled = false;
+
+            AnimatedCharacter[] characters = GetComponentsInChildren<AnimatedCharacter>();
+            for (int i = 0; i < characters.Length; i++)
+            {
+                characters[i].HandleDeath();
+            }
+
+            if (gameObject.tag != "Player")
+            {
+                GameStats.Instance.HandleSunkShip();
+            }
         }
     }
 }

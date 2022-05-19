@@ -15,6 +15,9 @@ namespace TreacherousWaters
         {
             goldText.text = GameStats.Instance.stolenGold.ToString();
             sunkShipsText.text = GameStats.Instance.shipsSunk.ToString();
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
     }
 }
