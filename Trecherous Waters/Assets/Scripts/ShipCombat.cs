@@ -16,11 +16,11 @@ namespace TreacherousWaters
         [SerializeField] Transform[] cannons;
         [SerializeField] ProjectileScriptableObject[] projectiles;
 
-        [SerializeField] AmmunitionType currentAmmo = AmmunitionType.Cannonball;
+        public AmmunitionType currentAmmo { get; private set; }
 
         [SerializeField] float[] loadCounters = new float[2];
-        private bool portLoaded => loadCounters[0] <= 0;
-        private bool starboardLoaded => loadCounters[1] <= 0;
+        public bool portLoaded => loadCounters[0] <= 0;
+        public bool starboardLoaded => loadCounters[1] <= 0;
 
         private Collider shipCollider;
 
@@ -41,7 +41,7 @@ namespace TreacherousWaters
 
             if(PlayerShip.Instance.gameObject == gameObject) //TODO: Clean up
             {
-                GameUI.Instance.UpdateBroadsideValues(loadCounters, projectiles[(int)currentAmmo].loadTime, currentAmmo);
+                GameUI.Instance.GUIBottom(loadCounters, projectiles[(int)currentAmmo].loadTime, currentAmmo);
                 GameUI.Instance.UpdateUIAmmo((int)currentAmmo);
             }
         }

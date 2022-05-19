@@ -3410,6 +3410,7 @@ GameObject:
   - component: {fileID: 4213183402761479409}
   - component: {fileID: 2725861145305055551}
   - component: {fileID: -8773394017206071956}
+  - component: {fileID: 5712904354519132169}
   m_Layer: 28
   m_Name: MerchantShip
   m_TagString: Enemy
@@ -3499,7 +3500,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 571493f739b714348b9211b5a98e7a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navSampleRadius: 3
 --- !u!114 &4213183402761479409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3512,8 +3512,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdffb93069e979749b77c77c399ff374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destinationPier: {fileID: 0}
+  maxIntegrity: 100
   goldChest: {fileID: 2178021071097266430, guid: e821c44eddb626141aa0530f3d36afe1, type: 3}
+  destroyOnFinalDestination: 1
 --- !u!114 &2725861145305055551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3540,7 +3541,6 @@ MonoBehaviour:
   - {fileID: 356064738745080881}
   projectiles:
   - {fileID: 11400000, guid: 06f499c2ef6c860458cd9b3b016e25f3, type: 2}
-  currentAmmo: 0
   loadCounters:
   - 0
   - 0
@@ -3569,11 +3569,11 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 0.7
-  MaxDistance: 500
+  MaxDistance: 250
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -3621,7 +3621,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.5555556
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -3646,6 +3646,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5712904354519132169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4213183402761479412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38559f02200d2ed4c9d24f4faaa73752, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthBarPrefab: {fileID: 5272276429102316181, guid: 0d3d4b1ecd357e649a6938e5f511f1a7, type: 3}
+  HealthBarHeight: 23
+  distanceToDisappear: 140
 --- !u!1 &5580517393941040969
 GameObject:
   m_ObjectHideFlags: 0

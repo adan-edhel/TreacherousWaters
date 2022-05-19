@@ -7,13 +7,17 @@ namespace TreacherousWaters
     /// Allows to move ships using a NavMeshAgent component.
     /// </summary>
     [RequireComponent(typeof(NavMeshAgent)), DisallowMultipleComponent]
-    public class ShipMovement : MonoBehaviour, ISetWaypoint
+    public class ShipMovement : MonoBehaviour, ISetWaypoint, IAddBoost
     {
         public NavMeshAgent agent { get; private set; }
         ParticleSystem wakeParticle;
         AudioSource audioSource;
 
         float targetVolume;
+        bool boosting;
+
+        float originalSpeed;
+        float targetSpeed;
 
         /// <summary>
         /// Dictates how close NavMesh needs to have been baked for a waypoint to be set.
@@ -28,6 +32,9 @@ namespace TreacherousWaters
 
             audioSource = GetComponent<AudioSource>();
             wakeParticle = GetComponentInChildren<ParticleSystem>();
+
+            originalSpeed = agent.speed;
+            targetSpeed = agent.speed;
         }
 
         private void LateUpdate()
@@ -49,6 +56,7 @@ namespace TreacherousWaters
                 }
             }
             audioSource.volume = Mathf.Lerp(audioSource.volume, targetVolume, 1f * Time.deltaTime);
+            if (agent.speed != targetSpeed) agent.speed = Mathf.Lerp(agent.speed, targetSpeed, 1f * Time.deltaTime);
         }
 
         /// <summary>
@@ -78,6 +86,18 @@ namespace TreacherousWaters
             agent.updateRotation = agent.remainingDistance <= agent.stoppingDistance ? false : true;
 
             return agent.remainingDistance;
+        }
+
+        public void AddBoost(bool toggle)
+        {
+            if (toggle)
+            {
+                targetSpeed = originalSpeed * 1.5f;
+            }
+            else
+            {
+                targetSpeed = originalSpeed;
+            }
         }
     }
 }

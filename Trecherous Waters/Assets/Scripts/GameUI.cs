@@ -24,8 +24,9 @@ namespace TreacherousWaters
         float goldAmount;
         int targetGold;
 
+        [SerializeField] GameObject[] broadsideFrames;
         [SerializeField] Image ammunitionIcon;
-        [SerializeField] Image[] broadsideIcons = new Image[3];
+        [SerializeField] Image[] broadsideIcons;
         [SerializeField] Color loadingColor;
         Color broadsideStartColor;
 
@@ -40,7 +41,7 @@ namespace TreacherousWaters
         {
             EventContainer.onGameOver += OnEndGame;
             EventContainer.OnUpdateGUIGold += UpdateGUIStats;
-            EventContainer.onDestroyedGUIBroadside += UpdateBroadsideValues;
+            EventContainer.onDestroyedGUIBroadside += GUIBottom;
 
             broadsideStartColor = broadsideIcons[0].color;
         }
@@ -79,26 +80,21 @@ namespace TreacherousWaters
             targetGold += amount;
         }
 
-        public void UpdateUIBroadside(Broadside side)
-        {
-            switch (side)
-            {
-                case Broadside.port:
-                    break;
-                case Broadside.starboard:
-                    break;
-            }
-        }
-
         public void UpdateUIAmmo(int index)
         {
             ammunitionIcon.sprite = ammunitionIcons[index];
         }
 
-        public void UpdateBroadsideValues(float[] loads, float loadtime, AmmunitionType type)
+        public void GUIBottom(float[] loads, float loadtime, AmmunitionType type)
         {
             if (type != AmmunitionType.Barrel)
             {
+                broadsideIcons[2].fillAmount = 1;
+                for (int i = 0; i < broadsideFrames.Length; i++)
+                {
+                    broadsideFrames[i].SetActive(true);
+                }
+
                 if (loads[0] > 0)
                 {
                     broadsideIcons[0].color = loadingColor;
@@ -123,10 +119,9 @@ namespace TreacherousWaters
             }
             else
             {
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < broadsideFrames.Length; i++)
                 {
-                    broadsideIcons[i].color = loadingColor;
-                    broadsideIcons[i].fillAmount = 1;
+                    broadsideFrames[i].SetActive(false);
                 }
 
                 if (loads[0] > 0)
@@ -150,7 +145,7 @@ namespace TreacherousWaters
             StartCoroutine(PopupCoroutine(delay));
             EventContainer.onGameOver -= OnEndGame;
             EventContainer.OnUpdateGUIGold -= UpdateGUIStats;
-            EventContainer.onDestroyedGUIBroadside -= UpdateBroadsideValues;
+            EventContainer.onDestroyedGUIBroadside -= GUIBottom;
         }
 
         /// <summary>

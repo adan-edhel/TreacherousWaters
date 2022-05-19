@@ -43,7 +43,7 @@ namespace TreacherousWaters
         /// </summary>
         private void CheckToFire()
         {
-            if (inAttackRange)
+            if (inAttackRange && !sunk)
             {
                 Vector3 dir = Vector3.zero;
 

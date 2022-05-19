@@ -78,8 +78,9 @@ namespace TreacherousWaters
             base.OnSink();
             sunkByPlayer = true;
             Destroy(gameObject, 5);
+            GetComponent<ICombatFunctions>().IsSunk(sunkByPlayer);
 
-            if (goldChest) Instantiate(goldChest, transform.position + (Vector3.up * 1), Quaternion.identity);
+            if (goldChest) Instantiate(goldChest, transform.position + (Vector3.up * 4), Quaternion.identity);
         }
 
         private void OnDestroy()
