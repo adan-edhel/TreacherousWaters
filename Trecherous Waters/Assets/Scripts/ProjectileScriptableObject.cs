@@ -16,6 +16,7 @@ namespace TreacherousWaters
         public float lifeTime = 5;
         public float forwardForce = 15;
         public float upForce = 5;
+        public float survivableImpactCount = 2;
     }
 }
 

@@ -4898,7 +4898,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ee412eabfe58c747939be534b3a4a34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delay: 0
+  delay: 4
 --- !u!82 &-3017398722992984260
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5025,7 +5025,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f5122a26b566c459d8c679bc34e241, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  variedVolume: 0
+  variedVolume: 1
   clip: []
 --- !u!1 &6446052014960755465
 GameObject:

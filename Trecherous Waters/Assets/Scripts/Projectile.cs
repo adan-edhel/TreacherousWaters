@@ -56,6 +56,16 @@ namespace TreacherousWaters
             {
                 if (data.particleDefaultImpact) Instantiate(data.particleDefaultImpact, transform.position, Quaternion.identity);
             }
+
+            data.survivableImpactCount--;
+            if (data.survivableImpactCount <= 0)
+            {
+                if (transform.childCount > 0)
+                {
+                    transform.GetChild(0).SetParent(null);
+                }
+                Destroy(gameObject);
+            }
         }
 
         private void OnDrawGizmos()

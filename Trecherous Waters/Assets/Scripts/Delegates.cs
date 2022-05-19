@@ -7,7 +7,7 @@ namespace TreacherousWaters
     {
         public delegate void OnGameOver(bool delayed);
         public delegate void OnUpdateGUIGold(int gold);
-        public delegate void OnUpdateGUIBroadside(float port, float starboard, float loadtime);
+        public delegate void OnUpdateGUIBroadside(float[] loads, float loadtime, AmmunitionType type);
         public delegate void OnDestroyedPickup(CollectibleItem item);
         public delegate void OnDestroyedMerchant(MerchantShip ship, bool sunk);
     }

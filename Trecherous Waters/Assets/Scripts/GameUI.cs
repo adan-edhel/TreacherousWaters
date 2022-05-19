@@ -16,7 +16,7 @@ namespace TreacherousWaters
 
         [SerializeField] TextMeshProUGUI timerText;
 
-        [SerializeField, Range(0, 1)] float targetValue;
+        [SerializeField, Range(0, 1)] float targetValue = 1f;
         [SerializeField] TextMeshProUGUI integrityPerc;
         [SerializeField] Image integrityBar;
 
@@ -25,8 +25,8 @@ namespace TreacherousWaters
         int targetGold;
 
         [SerializeField] Image ammunitionIcon;
-        [SerializeField] List<Image> broadsideIcons = new List<Image>();
-        [SerializeField] Color loadedColor;
+        [SerializeField] Image[] broadsideIcons = new Image[3];
+        [SerializeField] Color loadingColor;
         Color broadsideStartColor;
 
         [SerializeField] List<Sprite> ammunitionIcons = new List<Sprite>();
@@ -45,6 +45,11 @@ namespace TreacherousWaters
             broadsideStartColor = broadsideIcons[0].color;
         }
 
+        private void OnValidate()
+        {
+            GUIValues();
+        }
+
         private void LateUpdate()
         {
             float minutes = Mathf.FloorToInt(GameManager.instance.timeLeft / 60);
@@ -52,6 +57,11 @@ namespace TreacherousWaters
 
             timerText.text = string.Format("{0:00} : {1:00}", minutes, seconds);
 
+            GUIValues();
+        }
+
+        private void GUIValues()
+        {
             integrityBar.fillAmount = Mathf.Lerp(integrityBar.fillAmount, targetValue, 3f * Time.deltaTime);
             integrityPerc.text = Mathf.Round(integrityBar.fillAmount * 100).ToString() + "%";
 
@@ -85,26 +95,49 @@ namespace TreacherousWaters
             ammunitionIcon.sprite = ammunitionIcons[index];
         }
 
-        public void UpdateBroadsideValues(float port, float starboard, float loadtime)
+        public void UpdateBroadsideValues(float[] loads, float loadtime, AmmunitionType type)
         {
-            if (port > 0)
+            if (type != AmmunitionType.Barrel)
             {
-                broadsideIcons[0].color = broadsideStartColor;
-                broadsideIcons[0].fillAmount = (loadtime - port) / loadtime;
-            }
-            else
-            {
-                broadsideIcons[0].color = loadedColor;
-            }
+                if (loads[0] > 0)
+                {
+                    broadsideIcons[0].color = loadingColor;
+                    broadsideIcons[0].fillAmount = (loadtime - loads[0]) / loadtime;
+                }
+                else
+                {
+                    broadsideIcons[0].color = broadsideStartColor;
+                }
 
-            if (starboard > 0)
-            {
-                broadsideIcons[1].color = broadsideStartColor;
-                broadsideIcons[1].fillAmount = (loadtime - starboard) / loadtime;
+                if (loads[1] > 0)
+                {
+                    broadsideIcons[1].color = loadingColor;
+                    broadsideIcons[1].fillAmount = (loadtime - loads[1]) / loadtime;
+                }
+                else
+                {
+                    broadsideIcons[1].color = broadsideStartColor;
+                }
+
+                broadsideIcons[2].color = loadingColor;
             }
             else
             {
-                broadsideIcons[1].color = loadedColor;
+                for (int i = 0; i < 2; i++)
+                {
+                    broadsideIcons[i].color = loadingColor;
+                    broadsideIcons[i].fillAmount = 1;
+                }
+
+                if (loads[0] > 0)
+                {
+                    broadsideIcons[2].color = loadingColor;
+                    broadsideIcons[2].fillAmount = (loadtime - loads[0]) / loadtime;
+                }
+                else
+                {
+                    broadsideIcons[2].color = broadsideStartColor;
+                }
             }
         }
 

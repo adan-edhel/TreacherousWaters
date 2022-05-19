@@ -7,7 +7,7 @@ using UnityEngine;
 namespace TreacherousWaters
 {
     [RequireComponent(typeof(ShipMovement))]
-    public class WaypointMarker : MonoBehaviour
+    public class WaypointMarker : MonoBehaviour, ISetWaypoint
     {
         [SerializeField] GameObject waypointMarkerPrefab;
         [SerializeField] Color color = new Color(207, 181, 59);
@@ -18,11 +18,12 @@ namespace TreacherousWaters
 
         Image image;
         Canvas canvas;
+        NavMeshHit hit;
         NavMeshAgent agent;
+        ShipMovement movement;
 
         void Start()
         {
-            agent = GetComponent<ShipMovement>().agent;
             canvas = Instantiate(waypointMarkerPrefab, transform.position, Quaternion.identity).GetComponentInChildren<Canvas>();
             canvas.transform.parent.Rotate(90, 0, 0);
 
@@ -30,6 +31,9 @@ namespace TreacherousWaters
 
             image = canvas.GetComponentInChildren<Image>();
             image.color = invisibleColor;
+
+            movement = GetComponent<ShipMovement>();
+            agent = movement.agent;
         }
 
         private void LateUpdate()
@@ -37,7 +41,6 @@ namespace TreacherousWaters
             if (moving)
             {
                 image.color = color;
-                canvas.transform.parent.position = agent.destination;
             }
             else
             {
@@ -46,6 +49,14 @@ namespace TreacherousWaters
                     image.color = invisibleColor;
                     return;
                 }
+            }
+        }
+
+        public void SetWaypoint(Vector3 destination)
+        {
+            if (NavMesh.SamplePosition(destination, out hit, movement.navSampleRadius, NavMesh.AllAreas))
+            {
+                canvas.transform.parent.position = destination;
             }
         }
     }

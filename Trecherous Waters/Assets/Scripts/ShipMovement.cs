@@ -19,7 +19,7 @@ namespace TreacherousWaters
         /// Dictates how close NavMesh needs to have been baked for a waypoint to be set.
         /// Set player's value lower (0.2f) for a better game feel.
         /// </summary>
-        [SerializeField] private float navSampleRadius = 3f;
+        public float navSampleRadius { get; private set; } = 3f;
 
         private void Awake()
         {

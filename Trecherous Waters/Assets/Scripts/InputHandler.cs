@@ -6,7 +6,7 @@ namespace TreacherousWaters
 {
     public class InputHandler : MonoBehaviour
     {
-        ISetWaypoint iSetWaypoint;
+        ISetWaypoint[] iSetWaypoint;
         ICameraInput iCameraInput;
         IFire iFire;
 
@@ -16,28 +16,48 @@ namespace TreacherousWaters
         /// Layer mask for layers detected to set waypoints on.
         /// </summary>
         public LayerMask navigableTerrain;
+        RaycastHit hit;
+
+        bool rotating;
+        bool setWaypoint;
+
+        Vector2 mousePos;
 
         void Start()
         {
-            iCameraInput = CameraHandler.iCameraInput;
-            iSetWaypoint = GetComponent<ISetWaypoint>();
+            iCameraInput = FreelookCamera.iCameraInput;
+            iSetWaypoint = GetComponents<ISetWaypoint>();
             iFire = GetComponent<IFire>();
 
             EventContainer.onGameOver += OnGameOver;
         }
 
-        /// <summary>
-        /// Catches the SetWaypoint input and delivers it through an interface.
-        /// </summary>
-        private void OnSetWaypoint()
+        private void Update()
         {
-            RaycastHit hit;
+            if (setWaypoint && !rotating)
+            {
+                SetWaypointContinuous();
+            }
+        }
+
+        private void SetWaypointContinuous()
+        {
             Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, navigableTerrain))
             {
                 if (hit.point.y < (transform.position.y - 5)) { return; }
-                iSetWaypoint?.SetWaypoint(hit.point);
+                for (int i = 0; i < iSetWaypoint.Length; i++) { iSetWaypoint[i]?.SetWaypoint(hit.point); }
             }
+        }
+
+        // -----------------------------------------------------------------------
+
+        /// <summary>
+        /// Catches the SetWaypoint input and delivers it through an interface.
+        /// </summary>
+        private void OnSetWaypoint(InputValue value)
+        {
+            setWaypoint = value.isPressed;
         }
 
         private void OnSwitchBroadside(InputValue value)
@@ -49,7 +69,11 @@ namespace TreacherousWaters
 
         private void OnToggleRotate(InputValue value)
         {
+            rotating = value.isPressed;
             iCameraInput?.ToggleRotate(value.isPressed);
+
+            Cursor.visible = value.isPressed ? false : true;
+            Cursor.lockState = value.isPressed ? CursorLockMode.Locked : CursorLockMode.None;
         }
 
         private void OnRotate(InputValue value)

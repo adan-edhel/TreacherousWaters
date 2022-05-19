@@ -41,7 +41,7 @@ namespace TreacherousWaters
 
             if(PlayerShip.Instance.gameObject == gameObject) //TODO: Clean up
             {
-                GameUI.Instance.UpdateBroadsideValues(loadCounters[0], loadCounters[1], projectiles[(int)currentAmmo].loadTime);
+                GameUI.Instance.UpdateBroadsideValues(loadCounters, projectiles[(int)currentAmmo].loadTime, currentAmmo);
                 GameUI.Instance.UpdateUIAmmo((int)currentAmmo);
             }
         }
@@ -94,14 +94,7 @@ namespace TreacherousWaters
                 StartCoroutine(ShootCannon(cannon.position, rotateDegrees));
 
                 // Sets sides to load.
-                if (portside) 
-                { 
-                    loadCounters[0] = projectiles[(int)currentAmmo].loadTime; 
-                }
-                else 
-                { 
-                    loadCounters[1] = projectiles[(int)currentAmmo].loadTime; 
-                }
+                loadCounters[portside ? 0 : 1] = projectiles[(int)currentAmmo].loadTime;
             }
         }
 

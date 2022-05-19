@@ -3771,7 +3771,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 571493f739b714348b9211b5a98e7a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navSampleRadius: 0.2
 --- !u!114 &1063270157132964147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3913,7 +3912,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waypointMarkerPrefab: {fileID: 2768522736796838805, guid: db86610bfa12e954fa8900d691aec6e0, type: 3}
-  color: {r: 0.735849, g: 0.6495593, b: 0.2256141, a: 1}
+  color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1063270157338936767
 GameObject:
   m_ObjectHideFlags: 0

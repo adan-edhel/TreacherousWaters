@@ -11,7 +11,7 @@
                     "id": "334edfea-8cc0-4268-9a2f-3ae1d83056b0",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "initialStateCheck": false
                 },
                 {
@@ -37,7 +37,7 @@
                     "type": "Value",
                     "id": "07b1b3ed-e3b8-4d28-a21d-acf7b0711c3b",
                     "expectedControlType": "Vector2",
-                    "processors": "ScaleVector2(x=4,y=4)",
+                    "processors": "ScaleVector2(x=0.06,y=0.06)",
                     "interactions": "",
                     "initialStateCheck": true
                 },
@@ -46,7 +46,7 @@
                     "type": "Value",
                     "id": "fdfc8793-a0fb-45ba-867c-beb21570138a",
                     "expectedControlType": "Analog",
-                    "processors": "Scale(factor=0.1)",
+                    "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
                 },
@@ -117,7 +117,7 @@
                 {
                     "name": "negative",
                     "id": "60603f9d-2962-4f14-b5c1-46f268109d36",
-                    "path": "<Keyboard>/1",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -128,7 +128,7 @@
                 {
                     "name": "positive",
                     "id": "b0f13a2f-099d-4e2b-ae8f-99a2da2e996d",
-                    "path": "<Keyboard>/2",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
