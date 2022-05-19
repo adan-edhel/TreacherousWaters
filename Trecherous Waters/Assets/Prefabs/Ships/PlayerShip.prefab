@@ -3912,7 +3912,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11e02baec9fe9c44385f424f4be33d70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waypointMarker: {fileID: 1411872020893398154, guid: 20698e4d61ea32749b87391eda7c0160, type: 3}
+  waypointMarkerPrefab: {fileID: 2768522736796838805, guid: db86610bfa12e954fa8900d691aec6e0, type: 3}
   color: {r: 0.735849, g: 0.6495593, b: 0.2256141, a: 1}
 --- !u!1 &1063270157338936767
 GameObject:

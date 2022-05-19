@@ -9,21 +9,22 @@ namespace TreacherousWaters
     [RequireComponent(typeof(ShipMovement))]
     public class WaypointMarker : MonoBehaviour
     {
-        [SerializeField] GameObject waypointMarker;
+        [SerializeField] GameObject waypointMarkerPrefab;
         [SerializeField] Color color = new Color(207, 181, 59);
         Color invisibleColor;
 
+        bool visible => image.color == color;
+        bool moving => agent.velocity.magnitude > 1;
+
         Image image;
         Canvas canvas;
-
-        bool visible => image.color == color;
-
         NavMeshAgent agent;
 
         void Start()
         {
             agent = GetComponent<ShipMovement>().agent;
-            canvas = Instantiate(waypointMarker, transform.position, Quaternion.identity).GetComponent<Canvas>();
+            canvas = Instantiate(waypointMarkerPrefab, transform.position, Quaternion.identity).GetComponentInChildren<Canvas>();
+            canvas.transform.parent.Rotate(90, 0, 0);
 
             invisibleColor = new Color(color.r, color.g, color.b, 0);
 
@@ -33,20 +34,19 @@ namespace TreacherousWaters
 
         private void LateUpdate()
         {
-            if (agent.isStopped && visible)
+            if (moving)
             {
-                image.color = invisibleColor;
+                image.color = color;
+                canvas.transform.parent.position = agent.destination;
             }
             else
             {
-                image.color = color;
+                if (visible)
+                {
+                    image.color = invisibleColor;
+                    return;
+                }
             }
-        }
-
-        public void SetWaypoint(Vector3 destination)
-        {
-            canvas.transform.position = destination;
-            image.color = color;
         }
     }
 }
