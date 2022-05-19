@@ -18,8 +18,9 @@ MonoBehaviour:
   particleWaterImpact: {fileID: 8432104302052850356, guid: b2fb0577b8fe49d45ae87dc0f608f4b1, type: 3}
   particleDefaultImpact: {fileID: 0}
   type: 2
-  damage: 500
-  loadTime: 15
+  damage: 100
+  loadTime: 20
   lifeTime: 20
   forwardForce: 15
   upForce: 5
+  survivableImpactCount: 2

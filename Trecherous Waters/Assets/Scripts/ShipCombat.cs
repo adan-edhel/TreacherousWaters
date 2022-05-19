@@ -60,7 +60,7 @@ namespace TreacherousWaters
             // If player, update the UI
             if (gameObject.CompareTag("Player"))
             {
-                EventContainer.OnUpdateCombatUI(weaponCooldowns, projectiles[(int)currentAmmo].loadTime, currentAmmo);
+                EventContainer.OnUpdateCombatUI?.Invoke(weaponCooldowns, projectiles[(int)currentAmmo].loadTime, currentAmmo);
             }
         }
 

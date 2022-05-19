@@ -29,14 +29,14 @@ namespace TreacherousWaters
         protected override void AdjustIntegrity(float value)
         {
             base.AdjustIntegrity(value);
-            EventContainer.onPlayerIntegrityChanged.Invoke(integrity, maxIntegrity);
+            EventContainer.onPlayerIntegrityChanged?.Invoke(integrity, maxIntegrity);
         }
 
         protected override void OnSink()
         {
             base.OnSink();
             gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
-            GameManager.instance.EndGame();
+            EventContainer.onGameOver?.Invoke(true);
         }
 
         private void OnDrawGizmos()

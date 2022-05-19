@@ -3747,7 +3747,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxIntegrity: 100
-  checkIntegrity: 0
   explosionParticle: {fileID: 6405671179541518164, guid: 7315970e9c618cb4db06de42b29adeec, type: 3}
   smokes:
   - {fileID: 6211142514279713126}
@@ -3808,7 +3807,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 06f499c2ef6c860458cd9b3b016e25f3, type: 2}
   - {fileID: 11400000, guid: 74a4bc3ce0dcd4c44917c19337a03517, type: 2}
   - {fileID: 11400000, guid: ac1cc588d3cbc7948922410b08efc35d, type: 2}
-  loadCounters:
+  weaponCooldowns:
   - 0
   - 0
 --- !u!82 &8890473504625273194
