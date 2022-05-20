@@ -46,7 +46,8 @@ namespace TreacherousWaters
         {
             if (collision.transform.TryGetComponent(out IAdjustIntegrity ship))
             {
-                ship.AdjustIntegrity(data.damage);
+                float damage = collision.transform.CompareTag("Player") ? data.damage / 2 : data.damage;
+                ship.AdjustIntegrity(damage);
                 Destroy(gameObject, 1f);
 
 
