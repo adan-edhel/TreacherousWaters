@@ -12,7 +12,13 @@ namespace TreacherousWaters
         /// </summary>
         public ProjectileScriptableObject data;
 
+        /// <summary>
+        /// The radius of ship detection.
+        /// </summary>
         [SerializeField] float checkRadius = 50f;
+        /// <summary>
+        /// The intervals in which barrel checks for detection.
+        /// </summary>
         [SerializeField] float sphereCastInterval = 10;
         float counter;
 
@@ -32,6 +38,10 @@ namespace TreacherousWaters
             }
         }
 
+        /// <summary>
+        /// Checks for enemy ships within a radius and deals damage
+        /// in an explosion in the event of finding one.
+        /// </summary>
         private void CheckForShips()
         {
             Collider[] hits;

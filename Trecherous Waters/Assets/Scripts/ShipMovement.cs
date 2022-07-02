@@ -13,10 +13,18 @@ namespace TreacherousWaters
         ParticleSystem wakeParticle;
         AudioSource audioSource;
 
+        /// <summary>
+        /// Target volume value for the sailing sound effect.
+        /// </summary>
         float targetVolume;
-        bool boosting;
 
+        /// <summary>
+        /// Original ship speed.
+        /// </summary>
         float originalSpeed;
+        /// <summary>
+        /// Target ship speed (to switch between either boost value or original value).
+        /// </summary>
         float targetSpeed;
 
         /// <summary>
@@ -92,6 +100,10 @@ namespace TreacherousWaters
             return agent.remainingDistance;
         }
 
+        /// <summary>
+        /// Applies speed boost to the ship while boost condition is true.
+        /// </summary>
+        /// <param name="toggle"></param>
         public void AddBoost(bool toggle)
         {
             if (toggle)

@@ -7,6 +7,9 @@ namespace TreacherousWaters
     /// </summary>
     public class PickupGoldchest : CollectibleItem
     {
+        /// <summary>
+        /// The amount of gold assigned to this pickup.
+        /// </summary>
         public int goldAmount = 50;
 
         protected override void OnPickup(Collision collision)

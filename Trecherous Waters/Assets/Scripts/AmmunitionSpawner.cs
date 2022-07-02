@@ -10,10 +10,14 @@ namespace TreacherousWaters
     /// </summary>
     public class AmmunitionSpawner : MonoBehaviour
     {
+        /// <summary>
+        /// Shows casting grid and distribution through the level.
+        /// </summary>
         [Header("Debug")]
-        // Shows casting grid and distribution through the level.
         [SerializeField] bool showCastVisuals;
-        // Shows generated spawn positions.
+        /// <summary>
+        /// Shows generated spawn positions.
+        /// </summary>
         [SerializeField] bool showSpawnPositions;
 
         [Header("Cast Values")]

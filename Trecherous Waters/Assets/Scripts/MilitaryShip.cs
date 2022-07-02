@@ -11,6 +11,10 @@ namespace TreacherousWaters
         ISetWaypoint iSetWaypoint;
         Transform player;
 
+        /// <summary>
+        /// The speed in which the military ship rotates sideways
+        /// towards the player.
+        /// </summary>
         [Header("Rotation Values")]
         [SerializeField] float rotationSpeed = 50;
 

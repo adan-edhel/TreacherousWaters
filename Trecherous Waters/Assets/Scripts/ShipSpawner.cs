@@ -9,16 +9,28 @@ namespace TreacherousWaters
     /// </summary>
     public class ShipSpawner : MonoBehaviour
     {
+        /// <summary>
+        /// Max amount of merchant ships that can be in the scene.
+        /// </summary>
         [Header("Values")]
         [SerializeField] int maxMerchantShips = 5;
+        /// <summary>
+        /// The interval at which a new ship is spawned.
+        /// </summary>
         [SerializeField] Vector2 spawnShipIntervalRange = new Vector2(3, 10);
 
         [Header("Prefabs")]
         [SerializeField] GameObject MerchantShipPrefab;
         [SerializeField] GameObject MilitaryShipPrefab;
 
+        /// <summary>
+        /// List of all available piers in the scene.
+        /// </summary>
         [Header("Lists")]
         [SerializeField] private List<GameObject> piers = new List<GameObject>();
+        /// <summary>
+        /// List of all alive merchant ships.
+        /// </summary>
         [SerializeField] private List<MerchantShip> merchantShips = new List<MerchantShip>();
 
         private GameObject shipContainer;
@@ -124,6 +136,9 @@ namespace TreacherousWaters
             if (piers.Count <= 1) { throw new System.Exception("There aren't enough piers in the scene!"); }
         }
 
+        /// <summary>
+        /// Unsubscribes from destroyed merchant ship event.
+        /// </summary>
         private void OnDestroy()
         {
             EventContainer.onDestroyedMerchant -= HandleDestroyedMerchant;

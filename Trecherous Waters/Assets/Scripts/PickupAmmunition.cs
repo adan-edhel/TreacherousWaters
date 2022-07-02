@@ -14,6 +14,9 @@ namespace TreacherousWaters
     /// </summary>
     public class PickupAmmunition : CollectibleItem
     {
+        /// <summary>
+        /// The type of ammunition assigned to the pickup.
+        /// </summary>
         [SerializeField] AmmunitionType type;
 
         protected override void OnPickup(Collision collision)

@@ -8,6 +8,9 @@ namespace TreacherousWaters
     [RequireComponent(typeof(ParticleSystem))]
     public class Particle : MonoBehaviour
     {
+        /// <summary>
+        /// The extra delay applied to particle destruction.
+        /// </summary>
         [SerializeField] float delay;
 
         void Start()

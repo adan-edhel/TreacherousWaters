@@ -12,6 +12,10 @@ namespace TreacherousWaters
         /// </summary>
         public static GameObject Instance { get; private set; }
 
+        /// <summary>
+        /// If checked, spawns the player in a random position each
+        /// game.
+        /// </summary>
         [SerializeField] bool randomizePositionOnStart;
 
         protected override void Awake()

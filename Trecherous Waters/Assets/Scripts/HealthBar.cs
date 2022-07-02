@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
@@ -12,8 +10,13 @@ namespace TreacherousWaters
     public class HealthBar : MonoBehaviour
     {
         [SerializeField] GameObject HealthBarPrefab;
+        /// <summary>
+        /// Healthbar height offset
+        /// </summary>
         [SerializeField] float HealthBarHeight = 28;
-
+        /// <summary>
+        /// Distance to player outside of which the healthbar disappears.
+        /// </summary>
         [SerializeField] float distanceToDisappear = 140;
 
         GameObject healthBarObject;
@@ -38,6 +41,9 @@ namespace TreacherousWaters
             }
         }
 
+        /// <summary>
+        /// Spawns a worldspace healthbar canvas.
+        /// </summary>
         private void SetupHealthbar()
         {
             ship = GetComponent<ShipBase>();
@@ -48,6 +54,9 @@ namespace TreacherousWaters
             healthBarImage = healthBarObject.transform.Find("Canvas/Bar/Slider").GetComponent<Image>();
         }
 
+        /// <summary>
+        /// Handles activation, deactivation and rotation of the health bar.
+        /// </summary>
         private void HandleMovement()
         {
             float distanceToPlayer = Vector3.Distance(transform.position, PlayerShip.Instance.transform.position);
@@ -61,6 +70,9 @@ namespace TreacherousWaters
             }
         }
 
+        /// <summary>
+        /// Updates healthbar values.
+        /// </summary>
         private void UpdateBar()
         {
             healthBarImage.fillAmount = ship.integrity / ship.maxIntegrity;

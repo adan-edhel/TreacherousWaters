@@ -78,6 +78,9 @@ namespace TreacherousWaters
             HandleLines();
         }
 
+        /// <summary>
+        /// Handles the positioning of the line renderer.
+        /// </summary>
         private void HandleLines()
         {
             switch (inputHandler.currentSide)
@@ -95,6 +98,12 @@ namespace TreacherousWaters
             SetColors(CheckForEnemyShip(inputHandler.currentSide));
         }
 
+        /// <summary>
+        /// Returns enemy detection in currently selected direction 
+        /// with the use of raycasts.
+        /// </summary>
+        /// <param name="side"></param>
+        /// <returns></returns>
         private bool CheckForEnemyShip(Broadside side)
         {
             float offset = side == Broadside.port ? -length : length;
@@ -110,6 +119,10 @@ namespace TreacherousWaters
             return false;
         }
 
+        /// <summary>
+        /// Updates linerenderer color depending on enemy detection.
+        /// </summary>
+        /// <param name="combat"></param>
         private void SetColors(bool combat)
         {
             bool loaded = inputHandler.currentSide == Broadside.port ? shipCombat.portLoaded : shipCombat.starboardLoaded;

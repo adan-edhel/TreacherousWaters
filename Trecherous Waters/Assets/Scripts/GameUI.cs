@@ -84,7 +84,7 @@ namespace TreacherousWaters
         /// <param name="loads"></param>
         /// <param name="loadtime"></param>
         /// <param name="type"></param>
-        public void HandleCombatUI(float[] loads, float loadtime, AmmunitionType type)
+        private void HandleCombatUI(float[] loads, float loadtime, AmmunitionType type)
         {
             // Update middle icon
             ammunitionIcon.sprite = ammunitionIcons[(int)type];
@@ -144,7 +144,7 @@ namespace TreacherousWaters
         /// </summary>
         /// <param name="integrity"></param>
         /// <param name="maxIntegrity"></param>
-        public void HandleIntegrityValues(float integrity, float maxIntegrity)
+        private void HandleIntegrityValues(float integrity, float maxIntegrity)
         {
             targetValue = integrity / maxIntegrity;
         }

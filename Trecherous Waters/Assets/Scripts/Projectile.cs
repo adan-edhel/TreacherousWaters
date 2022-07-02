@@ -7,7 +7,13 @@ namespace TreacherousWaters
     /// </summary>
     public class Projectile : MonoBehaviour
     {
+        /// <summary>
+        /// Data assigned to the projectile.
+        /// </summary>
         private ProjectileScriptableObject data;
+        /// <summary>
+        /// Active rotation values if the object is supposed to rotate.
+        /// </summary>
         private Vector3 activeRotation;
 
         private void Start()
@@ -42,6 +48,11 @@ namespace TreacherousWaters
             if (data.particleShot) Instantiate(data.particleShot, transform.position, transform.rotation);
         }
 
+        /// <summary>
+        /// Handles collisions with all layers of objects and calls
+        /// the proper functions & instantiates the proper particles.
+        /// </summary>
+        /// <param name="collision"></param>
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.transform.TryGetComponent(out IAdjustIntegrity ship))

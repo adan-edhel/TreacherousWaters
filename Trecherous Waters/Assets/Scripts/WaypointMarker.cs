@@ -17,7 +17,13 @@ namespace TreacherousWaters
         [SerializeField] Color color = new Color(207, 181, 59);
         Color invisibleColor;
 
+        /// <summary>
+        /// Whether waypoint is currently visible.
+        /// </summary>
         bool visible => image.color == color;
+        /// <summary>
+        /// Whether ship is currently moving.
+        /// </summary>
         bool moving => agent.velocity.magnitude > 1;
 
         Image image;

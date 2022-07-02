@@ -19,7 +19,13 @@ namespace TreacherousWaters
         /// </summary>
         public float integrity { get; private set; }
 
+        /// <summary>
+        /// Whether ship is sunk.
+        /// </summary>
         private bool sunk;
+        /// <summary>
+        /// Whether ship is smoking.
+        /// </summary>
         private bool smoking;
 
         private Animator animator;
