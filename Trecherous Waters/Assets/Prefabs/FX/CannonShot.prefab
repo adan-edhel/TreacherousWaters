@@ -19309,9 +19309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f5122a26b566c459d8c679bc34e241, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  randomPitch: 1
   variedVolume: 1
   clip:
-  - {fileID: 8300000, guid: f55976b8d1d01fc4da8d582e220bec1e, type: 3}
-  - {fileID: 8300000, guid: 3681e8a09c5ad524b916928658f016a3, type: 3}
-  - {fileID: 8300000, guid: 5cb9830093f8a9b41af01961cb0195e3, type: 3}
-  - {fileID: 8300000, guid: 6b8a26391f894d34f89e93a362e73cce, type: 3}
+  - {fileID: 8300000, guid: 9bb64cfbd46f7b6469faf6708595c37c, type: 3}

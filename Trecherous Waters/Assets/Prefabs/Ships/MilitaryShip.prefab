@@ -2811,7 +2811,7 @@ MeshCollider:
   m_Mesh: {fileID: 4300000, guid: ef45dc6b72355bc419c08a51f4a63a5c, type: 3}
 --- !u!95 &1396642092440314068
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2828,7 +2828,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5536544333756053643
 GameObject:
   m_ObjectHideFlags: 0
@@ -3422,10 +3423,10 @@ GameObject:
   - component: {fileID: 5536544333956277200}
   - component: {fileID: 5536544333956277199}
   - component: {fileID: 5536544333956277202}
+  - component: {fileID: 7735054784245497860}
   - component: {fileID: 5536544333956277201}
   - component: {fileID: 5536544333956277203}
   - component: {fileID: 4259922485009337010}
-  - component: {fileID: 7735054784245497860}
   m_Layer: 28
   m_Name: MilitaryShip
   m_TagString: Enemy
@@ -3488,7 +3489,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 2
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 3
+  m_ObstacleAvoidanceType: 2
 --- !u!114 &5536544333956277202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3501,6 +3502,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 571493f739b714348b9211b5a98e7a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7735054784245497860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5536544333956277197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38559f02200d2ed4c9d24f4faaa73752, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthBarPrefab: {fileID: 5272276429102316181, guid: 0d3d4b1ecd357e649a6938e5f511f1a7, type: 3}
+  HealthBarHeight: 28
+  distanceToDisappear: 140
 --- !u!114 &5536544333956277201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3545,6 +3561,7 @@ MonoBehaviour:
   - {fileID: 966226306144681268}
   projectiles:
   - {fileID: 11400000, guid: 06f499c2ef6c860458cd9b3b016e25f3, type: 2}
+  maxBroadsideJitter: 0.3
   weaponCooldowns:
   - 0
   - 0
@@ -3564,7 +3581,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 12a9ff34eb3f7264581792089c4dc6b1, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 513f9bfbcf0cf91478f4c014cb633651, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0
   m_Pitch: 1
@@ -3668,21 +3685,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &7735054784245497860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5536544333956277197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38559f02200d2ed4c9d24f4faaa73752, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HealthBarPrefab: {fileID: 5272276429102316181, guid: 0d3d4b1ecd357e649a6938e5f511f1a7, type: 3}
-  HealthBarHeight: 28
-  distanceToDisappear: 140
 --- !u!1 &5589364755187965456
 GameObject:
   m_ObjectHideFlags: 0
