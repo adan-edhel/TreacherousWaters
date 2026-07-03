@@ -1,2 +1,58 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# =============================================
+# Unity .gitattributes
+# =============================================
+
+# Default: auto-normalize line endings
+* text=auto eol=lf
+
+# ======================
+# Unity YAML assets
+# ======================
+[attr]unityyaml -text merge=unityyamlmerge diff
+*.unity     unityyaml
+*.prefab    unityyaml
+*.asset     unityyaml
+*.anim      unityyaml
+*.controller unityyaml
+*.mat       unityyaml
+*.meta      unityyaml
+*.mask      unityyaml
+*.physicMaterial unityyaml
+
+# ======================
+# Binary files
+# ======================
+*.png       binary
+*.jpg       binary
+*.jpeg      binary
+*.tga       binary
+*.tif       binary
+*.tiff      binary
+*.psd       binary
+*.exr       binary
+
+# Audio
+*.wav       binary
+*.mp3       binary
+*.ogg       binary
+*.aif       binary
+*.aiff      binary
+*.flac      binary
+
+# Models & other 3D
+*.fbx       binary
+*.obj       binary
+*.blend     binary
+*.dae       binary
+
+# Other common binaries
+*.unitypackage binary
+*.ttf       binary
+*.otf       binary
+*.pdf       binary
+
+# Lighting / heavy Unity files
+LightingData.asset     binary
+ReflectionProbe-*.exr  binary
+NavMesh*.asset         binary
+*.terrainData          binary

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 222485a6388a92848bd6b1cf3a8eeaf0, type: 3}
+  m_Name: Barrel
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 5242665396085819638, guid: e5c5a1fc4e3a7cb41ac428e48c6d181c, type: 3}
+  particleShot: {fileID: 0}
+  particleShipImpact: {fileID: 3008876821268326037, guid: e69e41184d8c0b548969cce9cbf70e24, type: 3}
+  particleWaterImpact: {fileID: 8432104302052850356, guid: b2fb0577b8fe49d45ae87dc0f608f4b1, type: 3}
+  particleDefaultImpact: {fileID: 0}
+  type: 2
+  damage: 100
+  loadTime: 20
+  lifeTime: 20
+  forwardForce: 15
+  upForce: 5
+  survivableImpactCount: 2
