@@ -50,7 +50,7 @@ namespace TreacherousWaters
             }
 
             // If there are no spawn positions, generate them.
-            if (spawnPositions.Count == 0) GenerateSpawnPositions();
+            if (spawnPositions.Count <= 0) GenerateSpawnPositions();
 
             EventContainer.onDestroyedPickup += HandlePickupRegistry;
 
@@ -81,10 +81,7 @@ namespace TreacherousWaters
         /// <exception cref="System.Exception"></exception>
         private void SpawnPickup()
         {
-            if (spawnPositions.Count < 1)
-            {
-                throw new System.Exception($"{name} script on the {gameObject.name} has no spawn positions generated!");
-            }
+            if (spawnPositions.Count <= 0) return;
 
             indexesToSpawnFrom.Clear();
             for (int i = 0; i < 3; i++)
@@ -122,22 +119,41 @@ namespace TreacherousWaters
         {
             spawnPositions.Clear();
 
+            int steps = Mathf.RoundToInt(castAreaSize / castSparsity);
+            float half = castAreaSize * 0.5f;
+
             NavMeshHit hit;
-            RaycastHit[] hits;
-            for (int x = 0; x < castAreaSize - castSparsity; x++)
+            for (int ix = 0; ix < steps; ix++)
             {
-                for (int z = 0; z < castAreaSize - castSparsity; z++)
+                for (int iz = 0; iz < steps; iz++)
                 {
-                    Vector3 pos = new Vector3(x * castSparsity - (castAreaSize / 2), castHeight, z * castSparsity - (castAreaSize / 2)) + Vector3.zero;
-                    if (pos.x < castAreaSize / 2 && pos.z < castAreaSize / 2)
+                    float worldX = ix * castSparsity - half;
+                    float worldZ = iz * castSparsity - half;
+
+                    Vector3 rayStart = new Vector3(worldX, castHeight, worldZ);
+
+                    RaycastHit[] hits = Physics.RaycastAll(rayStart, Vector3.down, Mathf.Infinity, navigableTerrain);
+
+                    if (hits.Length == 0) continue;
+
+                    Vector3 point = hits[0].point;
+
+                    if (NavMesh.SamplePosition(point, out hit, 0.5f, NavMesh.AllAreas))
                     {
-                        hits = Physics.RaycastAll(pos, Vector3.down, Mathf.Infinity, navigableTerrain);
-                        if (NavMesh.SamplePosition(hits[0].point, out hit, .05f, NavMesh.AllAreas))
-                        {
-                            spawnPositions.Add(hits[0].point + (Vector3.up * spawnHeight));
-                        }
+                        spawnPositions.Add(hit.position + (Vector3.up * spawnHeight));
                     }
                 }
+            }
+
+            if (spawnPositions.Count < 1)
+            {
+                Debug.LogError($"Failed to generate spawn positions.");
+                return;
+            }
+
+            if (spawnPositions.Count < maxSpawnedPickups)
+            {
+                Debug.LogError($"Failed to generate enough spawn positions.");
             }
         }
 
