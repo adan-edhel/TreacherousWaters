@@ -113,6 +113,17 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "",
+                    "id": "d0d127e4-2cc2-41f1-ae2c-75954699db72",
+                    "path": "<Keyboard>/backspace",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
                     "name": "1D Axis",
                     "id": "6c80c379-366c-462d-9ec9-1cb28d63fffb",
                     "path": "1DAxis",
@@ -148,7 +159,7 @@
                 {
                     "name": "",
                     "id": "3bee4b38-9390-400e-80c8-3c609194895f",
-                    "path": "<Mouse>/rightButton",
+                    "path": "<Mouse>/middleButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

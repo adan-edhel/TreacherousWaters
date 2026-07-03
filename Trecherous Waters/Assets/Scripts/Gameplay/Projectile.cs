@@ -40,7 +40,7 @@ namespace TreacherousWaters
         {
             Physics.IgnoreCollision(ownerCollider, GetComponent<Collider>());
 
-            data = projectileData;
+            data = Instantiate(projectileData);
 
             GetComponent<Rigidbody>().AddForce(transform.forward * data.forwardForce, ForceMode.Impulse);
             GetComponent<Rigidbody>().AddForce(transform.up * data.upForce, ForceMode.Impulse);
